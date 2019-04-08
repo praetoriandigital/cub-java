@@ -1,0 +1,15 @@
+language: java
+
+matrix:
+  include:
+    - jdk: oraclejdk8
+    - jdk: openjdk8
+    - jdk: oraclejdk9
+    - jdk: openjdk9
+    - jdk: openjdk10
+    - jdk: oraclejdk11
+    - jdk: openjdk11
+
+script:
+  - gradle --version
+  - gradle check -i
