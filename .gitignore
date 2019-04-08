@@ -12,8 +12,6 @@ target
 .gradle/*
 gradle/*
 out/*
-gradlew
-gradlew.bat
 
 # compiler output
 bin/

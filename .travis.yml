@@ -11,5 +11,5 @@ matrix:
     - jdk: openjdk11
 
 script:
-  - gradle --version
-  - gradle check -i
+  - ./gradlew --version
+  - ./gradle check -i
