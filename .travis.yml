@@ -12,4 +12,4 @@ matrix:
 
 script:
   - ./gradlew --version
-  - ./gradle check -i
+  - ./gradlew check -i
