@@ -1,0 +1,19 @@
+*.swp
+.classpath
+.project
+.settings
+tags
+target
+.idea
+*.iml
+.DS_Store
+
+# Gradle files
+.gradle/*
+gradle/*
+out/*
+gradlew
+gradlew.bat
+
+# compiler output
+bin/

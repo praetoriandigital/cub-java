@@ -1,0 +1,24 @@
+{
+  "address": "address",
+  "city": "city",
+  "country": "cry_123",
+  "county": "county",
+  "created": "2011-01-20T10:38:57Z",
+  "email": "email",
+  "employees": "employees",
+  "fax": "fax",
+  "hr_phone": "hrPhone",
+  "id": "org_123",
+  "logo": "logo",
+  "moderator_approved": false,
+  "modified": "2018-04-06T10:39:34Z",
+  "name": "name",
+  "object": "organization",
+  "phone": "phone",
+  "postal_code": "postalCode",
+  "state": "stt_123",
+  "tags": [
+    "EMS"
+  ],
+  "website": "website"
+}

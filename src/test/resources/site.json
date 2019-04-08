@@ -1,0 +1,23 @@
+{
+  "domain": "domain",
+  "friendly_name": "friendly_name",
+  "hide_skip_button_for_verification_step": false,
+  "id": "ste_123",
+  "keep_signed_in": false,
+  "lead_checkbox": "leadCheckbox",
+  "lead_form": null,
+  "login_disabled": false,
+  "lytics_jstag_cid": "lyticsJstagCide",
+  "mailinglists": [],
+  "object": "site",
+  "plaid_pk": null,
+  "single_so_enabled": false,
+  "sitebenefits": [],
+  "siteplans": [],
+  "sso_settings": {},
+  "stripe_pk": "stripePk",
+  "suggest_verification": [],
+  "tags": ["EMS"],
+  "vendor_lead_form": null,
+  "verification_without_tags": false
+}

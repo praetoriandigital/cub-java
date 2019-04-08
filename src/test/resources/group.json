@@ -1,0 +1,13 @@
+{
+  "active_members": {
+    "invited": 1,
+    "joined": 1
+  },
+  "created": "2018-05-10T16:07:28Z",
+  "description": "description",
+  "id": "grp_123",
+  "name": "name",
+  "object": "group",
+  "organization": "org_123",
+  "type": "type"
+}
