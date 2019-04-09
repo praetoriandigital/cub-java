@@ -10,7 +10,7 @@ import java.util.List;
 public class State extends ApiResource {
   public String code;
   public String name;
-  ExpandableField<Country> country;
+  public ExpandableField<Country> country;
 
 
   public static List<CubObject> list(Params params)
