@@ -71,6 +71,26 @@ Add this dependency to your project's POM:
       params.setValue("order_by", "-name"); // order by name (reversed)
       states = State.list(params);
       State state = (State) states.get(0);
+      
+      // The country variable is reference object.
+      // It has id of related country object. And may have full country object.
+      assert state.country.getId() != null; // It has country id
+      assert state.country.getExpanded() == null; // we dont have related country object
+  
+      // Get states with already populated country objects.
+      params = new Params();
+  
+      // Tells cub to return states with full country object, not id only.
+      params.setExpands("country");
+      params.setValue("order_by", "-name"); // set order
+      states = State.list(params);
+  
+      state = (State) states.get(0);
+  
+      // check country is already populated
+      assert state.country.getId() != null;
+      Country country = state.country.getExpanded();
+      assert country.name != null;
     }
   }
 ```
