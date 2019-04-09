@@ -42,7 +42,7 @@ public class FactoryTest extends CubModelBaseTest {
       Cub.factory.fromString(jsonStr);
       fail(); // expected deserialization exception
     } catch (DeserializationException ignored) {
-      ignored.printStackTrace();
+      // This is expected
     }
 
     // Register and check deserialization
@@ -62,7 +62,7 @@ public class FactoryTest extends CubModelBaseTest {
       Cub.factory.fromString(jsonStr);
       fail(); // expected deserialization exception
     } catch (DeserializationException ignored) {
-      ignored.printStackTrace();
+      // This is expected
     }
   }
 
