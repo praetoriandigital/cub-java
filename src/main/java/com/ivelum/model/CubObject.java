@@ -10,8 +10,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * To ignore some fields in serialization you can declare static field serializationIgnoreFields
- * @see User.serializationIgnoreFields
+ * To ignore some fields in serialization you can declare static field
+ * {@link com.ivelum.model.User#serializationIgnoreFields}.
+ *
  */
 public class CubObject {
   protected String apiKey;
@@ -31,8 +32,10 @@ public class CubObject {
   }
 
   /**
-   * It doesn't serialize parent fields. Right now CubObject hierarchy is pretty straightforward and
-   * no case where do we need it.
+   * Fill params object with model serializable fields. Usefull for POST http requests.
+   *
+   * @param params Params object will be filled using current model.
+   * @throws InvalidRequestException Error setting params from object.
    */
   public void toParams(Params params) throws InvalidRequestException {
     assert params != null;

@@ -144,8 +144,10 @@ public class Transport {
   }
 
   /**
-   * Returns api key from params or default
+   * Returns api key from params or default.
    *
+   * @param params Params object to search api key
+   * @param defaultKey Default api key to be returned if params has no apiKey
    * @return String
    */
   public static String getApiKeyOrDefault(Params params, String defaultKey) {
