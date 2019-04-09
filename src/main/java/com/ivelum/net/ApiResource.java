@@ -80,11 +80,11 @@ public class ApiResource extends CubObject {
     return String.format("/%s/", instanceName);
   }
 
-  private static String getInstanceUrl(String instanceName, String id) {
+  public static String getInstanceUrl(String instanceName, String id) {
     return String.format("/%s/%s/", instanceName, id);
   }
 
-  private static String getInstanceName(Class<?> cls) {
+  public static String getInstanceName(Class<?> cls) {
     try {
       return (String) cls.getDeclaredField("instanceName").get(null);
     } catch (NoSuchFieldException | IllegalAccessException e) {

@@ -104,7 +104,7 @@ public class Transport {
     return absoluteUrl(endpoint, null);
   }
 
-  private static String absoluteUrl(String endpoint, Params params)
+  public static String absoluteUrl(String endpoint, Params params)
           throws InvalidRequestException, UnsupportedEncodingException {
 
     String absoluteEndpointUrl = String.format("%s%s%s", Cub.baseUrl, Cub.version, endpoint);

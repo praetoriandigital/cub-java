@@ -12,6 +12,7 @@ import com.ivelum.CubModelBaseTest;
 import com.ivelum.exception.CubException;
 import com.ivelum.exception.DeserializationException;
 import com.ivelum.exception.NotFoundException;
+import com.ivelum.net.ApiResource;
 import com.ivelum.net.Params;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
@@ -21,12 +22,21 @@ import org.junit.Test;
 
 public class OrganizationTest extends CubModelBaseTest {
 
-
   @Test
-  public void testDeserialization() throws CubException {
-    String orgJson = getFixture("organization");
+  public void testRead() throws CubException, UnsupportedEncodingException {
+    String baseUrl = Cub.baseUrl;
+    Cub.baseUrl = String.format("http://127.0.0.1:%s/", wireMockRule.port());
+    String objUrl = String.format(
+        "/%s%s",
+        Cub.version,
+        ApiResource.getInstanceUrl(ApiResource.getInstanceName(Organization.class), "org_123"
+    ));
 
-    Organization org = (Organization) Cub.factory.fromString(orgJson);
+
+    setMock(objUrl, "organization", 200, Cub.apiKey);
+    Organization org = Organization.get("org_123");
+    Cub.baseUrl = baseUrl;
+
 
     assertEquals("org_123", org.id);
     assertEquals("name", org.name);
