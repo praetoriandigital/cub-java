@@ -3,8 +3,8 @@ package com.ivelum.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import com.ivelum.Cub;
 import com.ivelum.CubModelBaseTest;
@@ -82,7 +82,17 @@ public class UserTest extends CubModelBaseTest {
     assertEquals("ste_123", user.registrationSite.getId());
 
     assertEquals(user.token, user.getApiKey());
+    assertNull(user.deleted);
   }
+
+  @Test
+  public void testDeserializationDeletedObject() throws DeserializationException {
+    String jsonStr = getFixture("user_deleted");
+    User user = (User) Cub.factory.fromString(jsonStr);
+    assertTrue(user.deleted);
+  }
+
+
 
   @Test
   public void testTokenNotSerialized() throws InvalidRequestException {

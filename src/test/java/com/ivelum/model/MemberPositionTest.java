@@ -3,8 +3,8 @@ package com.ivelum.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import com.ivelum.Cub;
 import com.ivelum.CubModelBaseTest;
@@ -32,5 +32,14 @@ public class MemberPositionTest extends CubModelBaseTest {
 
     assertFalse(mp.member.isExpanded());
     assertEquals("mbr_123", mp.member.getId());
+    assertNull(mp.deleted);
+  }
+
+  @Test
+  public void testDeserializationDeletedWebhook() throws DeserializationException {
+    String mpJsonStr = getFixture("memberposition_deleted");
+
+    MemberPosition mp = (MemberPosition) Cub.factory.fromString(mpJsonStr);
+    assertTrue(mp.deleted);
   }
 }

@@ -3,12 +3,14 @@ package com.ivelum.model;
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertFalse;
 import static junit.framework.TestCase.assertNotNull;
+import static junit.framework.TestCase.assertNull;
 import static junit.framework.TestCase.assertTrue;
 import static junit.framework.TestCase.fail;
 
 import com.ivelum.Cub;
 import com.ivelum.CubModelBaseTest;
 import com.ivelum.exception.CubException;
+import com.ivelum.exception.DeserializationException;
 import com.ivelum.exception.NotFoundException;
 import com.ivelum.net.Params;
 import java.io.UnsupportedEncodingException;
@@ -48,6 +50,15 @@ public class OrganizationTest extends CubModelBaseTest {
     assertEquals("postalCode", org.postalCode);
     assertFalse(org.country.isExpanded());
     assertEquals("cry_123", org.country.getId());
+    assertNull(org.deleted);
+  }
+
+  @Test
+  public void testDeserializationDeletedWebhook() throws DeserializationException {
+    String orgJson = getFixture("organization_deleted");
+
+    Organization org = (Organization) Cub.factory.fromString(orgJson);
+    assertTrue(org.deleted);
   }
 
   @Test

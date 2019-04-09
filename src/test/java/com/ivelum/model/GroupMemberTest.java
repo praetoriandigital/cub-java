@@ -28,6 +28,15 @@ public class GroupMemberTest extends CubModelBaseTest {
 
     assertFalse(gm.group.isExpanded());
     assertEquals("grp_123", gm.group.getId());
+    assertNull(gm.deleted);
+  }
+
+  @Test
+  public void testDeserializationDeletedWebhook() throws DeserializationException {
+    String gmJsonStr = getFixture("groupmember_deleted");
+    GroupMember gm = (GroupMember) Cub.factory.fromString(gmJsonStr);
+
+    assertTrue(gm.deleted);
   }
 
   @Test

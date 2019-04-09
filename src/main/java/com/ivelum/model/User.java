@@ -45,7 +45,19 @@ public class User extends ApiResource {
   public List<String> verifiedTags;
   public List<ExpandableField<Member>> membership;
   public ExpandableField<Site> registrationSite;
+  /**
+   * Passed in the webhooks only. Indicates that object was deleted in cub.
+   */
+  public Boolean deleted;
 
+  /**
+   * Login user with passed credentials.
+   * @param username Username to login with
+   * @param password Password to login with
+   * @return Logged in user object.
+   * @throws CubException Base api exception
+   * @throws UnsupportedEncodingException Encode credentials error.
+   */
   public static User login(String username, String password)
           throws CubException, UnsupportedEncodingException {
 

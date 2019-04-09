@@ -3,8 +3,8 @@ package com.ivelum.model;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import com.ivelum.Cub;
 import com.ivelum.CubModelBaseTest;
@@ -30,5 +30,13 @@ public class GroupTest extends CubModelBaseTest {
 
     assertFalse(group.organization.isExpanded());
     assertEquals("org_123", group.organization.getId());
+    assertNull(group.deleted);
+  }
+
+  @Test
+  public void testDeserializationDeletedWebhook() throws DeserializationException {
+    String groupJsonStr = getFixture("group__deleted");
+    Group group = (Group) Cub.factory.fromString(groupJsonStr);
+    assertTrue(group.deleted);
   }
 }

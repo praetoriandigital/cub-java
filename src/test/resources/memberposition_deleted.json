@@ -1,0 +1,15 @@
+{
+  "created": "2016-01-21T13:47:17Z",
+  "day_from": 1,
+  "day_to": 1,
+  "id": "mpo_123",
+  "member": "mbr_123",
+  "month_from": 1,
+  "month_to": 1,
+  "object": "memberposition",
+  "position": "position",
+  "unit": "unit",
+  "year_from": 1,
+  "year_to": 1,
+  "deleted": true
+}

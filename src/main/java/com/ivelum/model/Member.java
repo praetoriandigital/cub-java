@@ -20,6 +20,11 @@ public class Member extends ApiResource {
   public List<ExpandableField<MemberPosition>> positions;
   public List<ExpandableField<GroupMember>> groupMembership;
 
+  /**
+   * Passed in the webhooks only. Indicates that object was deleted in cub.
+   */
+  public Boolean deleted;
+
   public static Member get(String id) throws CubException, UnsupportedEncodingException {
     return (Member) get(id, Member.class);
   }

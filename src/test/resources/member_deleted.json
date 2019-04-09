@@ -1,0 +1,17 @@
+{
+  "created": "2017-09-19T18:35:41Z",
+  "group_membership": ["grm_123"],
+  "id": "mbr_qdd1xX6JlkI3j3L6",
+  "is_active": false,
+  "is_admin": false,
+  "is_payer": false,
+  "is_profile_editable": false,
+  "notes": "notes",
+  "object": "member",
+  "organization": "org_123",
+  "personal_id": "personalId",
+  "positions": ["mpo_123"],
+  "post_id": "",
+  "user": "usr_123",
+  "deleted": true
+}
