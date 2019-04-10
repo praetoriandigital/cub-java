@@ -17,7 +17,7 @@ Repository:
 Add this dependency to your project's build file:
 
 ```groovy
-     compile "com.ivelum:cub-java:0.2.0"
+     compile "com.ivelum:cub-java:0.2.1"
 ```
 
 ### Maven users
@@ -39,7 +39,7 @@ Add this dependency to your project's POM:
     <dependency>
         <groupId>com.ivelum</groupId>
         <artifactId>cub-java</artifactId>
-        <version>0.2.0</version>
+        <version>0.2.1</version>
     </dependency>
 ```
 
@@ -200,6 +200,45 @@ User tokens are  [JWT tokens](https://jwt.io). That can be verified using applic
       assert user.middleName.equals(userCopy.middleName);
     }
   }
+```
+
+### Create objects 
+
+```java 
+public class CubCreateExample {
+  public static void main(String[] args) {
+    Cub.apiKey = "Api key with permissions to create group ";
+
+    String orgId = "organization id to create group";
+
+    Group group = new Group();
+    group.organization = new ExpandableField<>(orgId, null);
+
+
+    assert group.id == null;
+    
+    try {
+      group.save();
+    } catch (BadRequestException e) {
+      // validation error. Missed name field. 
+      ApiError apiError = e.getApiError();
+      assert apiError.params.get("name").contains("required");
+    } catch (CubException e) {
+      // unexpected error 
+    }
+
+    group.name = "new group";
+    try {
+      group.save();
+    } catch (CubException e) {
+      // unexpected error
+    }
+
+    // group was created, and we have fresh instance from the API. 
+    assert group.id != null;
+  }
+}
+  
 ```
 
 ### Expandable objects. 
