@@ -1,5 +1,18 @@
 # Cub Client for Java [![Build Status](https://travis-ci.org/praetoriandigital/cub-java.svg?branch=master)](https://travis-ci.org/praetoriandigital/cub-java)
 
+Cub OneSource is our system for users auth and management. 
+
+It provides API for data access and the [cub widget](https://github.com/praetoriandigital/cub-docs) that implements 
+UI for most common user functionality. 
+
+The integration with Cub can be done:
+* with direct API usage. 
+* with [cub widget](https://github.com/praetoriandigital/cub-docs) integration.  It allows using already implemented functionality about user registration/login/logout/profile data and more.
+                                                                                
+                                                                                
+In both cases, you have set up webhook endpoint to keep data in sync.
+
+
 ## Requirements
 
 Java 1.8 or later.
@@ -47,8 +60,7 @@ Add this dependency to your project's POM:
 
 ### Webhooks processing 
 
-When something changes in User model(or any other Model that you are interested in) Cub 
-will send latest data for the model that was updated to the endpoint. But only webhooks 
+When something changes in User model (or any other Model that you are interested in) Cub will send the latest data for the model that was updated to the endpoint. But only webhooks 
 are not reliable and should be used together with API, because:
 - there can be a race condition between webhooks when webhook can contain outdated data(for example, on retries after failed requests);
 - some webhooks can be lost, even the most reliable systems sometimes fail;
@@ -60,9 +72,9 @@ So, webhooks should be considered as signals to pull the latest data through API
 
 public class WebhookProcessor {
   /**
-   * Process webhook body, returns http status for response.
+   * Process webhook body returns HTTP status for a response.
    * 
-   * @param hookBody webhook http request body
+   * @param hookBody webhook HTTP request body
    * @return HttpResponse status code
    */
   public int processWebhookData(String hookBody) {
@@ -73,7 +85,7 @@ public class WebhookProcessor {
     try {
       obj = Cub.factory.fromString(hookBody);
     } catch (DeserializationUnknownCubModelException e) {
-      // Webhook related to the cub model which was not implemented in the cub-java. 
+      // Webhook related to the cub model that was not implemented in the cub-java. 
       return httpStatusOk;
     } catch (DeserializationException e) {
       // Cub-java can not deserialize webhook data to the Cub model. 
@@ -92,7 +104,7 @@ public class WebhookProcessor {
         return httpStatusError;
       }
 
-      // Webhook about object deletion arrived, but actually object still present in Cub.
+      // Webhook about object deletion arrived, but object still present in Cub.
       // @todo: Related model(s) must be updated in the system.
       return httpStatusOk; // status 200 if model(s) were update, otherwise 500 status.
     }
@@ -103,7 +115,7 @@ public class WebhookProcessor {
     } catch (AccessDeniedException e) {
       // @todo: Process it
       //    access denied for the object. Application lost access to it.
-      //    for example users can be deactivated in the cub, or connection with the
+      //    For example user can be deactivated in the cub, or connection with the
       //    application was removed.
       //    this object can not be synchronized anymore.
       return httpStatusOk;
@@ -112,7 +124,7 @@ public class WebhookProcessor {
       return httpStatusError;
     }
 
-    // object reloaded without error, now we have latest snapshot of model from cub.
+    // Object reloaded without error, now we have the latest snapshot of a model from Cub.
     // @todo: Related model(s) must be updated in the system.
     return httpStatusOk; // status 200 if model(s) were update, otherwise 500 status.
   }
@@ -122,7 +134,7 @@ public class WebhookProcessor {
 
 ### API for login and user tokens.
 
-User tokens are  [JWT tokens](https://jwt.io). That can be verified using application secret key.
+User tokens are  [JWT tokens](https://jwt.io). You can verify a token using the application secret key.
  
 ```java
   import com.ivelum.model.CubObject;
@@ -168,7 +180,7 @@ User tokens are  [JWT tokens](https://jwt.io). That can be verified using applic
       // setup ApiKey 
       Cub.apiKey = "your api key";
 
-      // Retrieving user from server using user jwt token recievied with login method. 
+      // Retrieving user from the server using user JWT token received with login method. 
       user = User.get("user_id", new Params("user token retrieved with login"));
       
       try {
@@ -185,7 +197,7 @@ User tokens are  [JWT tokens](https://jwt.io). That can be verified using applic
         return;
       }
   
-      // retrieve user copy using user token which stored in the user.getApiKey() after login
+      // Retrieve user copy using user token that stored in the user.getApiKey() after login
       User userCopy;
       try {
         userCopy = User.get(user.id, new Params(user.getApiKey()));
@@ -205,39 +217,40 @@ User tokens are  [JWT tokens](https://jwt.io). That can be verified using applic
 ### Create objects 
 
 ```java 
-public class CubCreateExample {
-  public static void main(String[] args) {
-    Cub.apiKey = "Api key with permissions to create group ";
 
-    String orgId = "organization id to create group";
-
-    Group group = new Group();
-    group.organization = new ExpandableField<>(orgId, null);
-
-
-    assert group.id == null;
-    
-    try {
-      group.save();
-    } catch (BadRequestException e) {
-      // validation error. Missed name field. 
-      ApiError apiError = e.getApiError();
-      assert apiError.params.get("name").contains("required");
-    } catch (CubException e) {
-      // unexpected error 
+  class CubCreateExample {
+    public static void main(String[] args) {
+      Cub.apiKey = "Api key with permissions to create group ";
+  
+      String orgId = "organization id to create group";
+  
+      Group group = new Group();
+      group.organization = new ExpandableField<>(orgId, null);
+  
+  
+      assert group.id == null;
+  
+      try {
+        group.save();
+      } catch (BadRequestException e) {
+        // validation error. Missed name field. 
+        ApiError apiError = e.getApiError();
+        assert apiError.params.get("name").contains("required");
+      } catch (CubException e) {
+        // unexpected error 
+      }
+  
+      group.name = "new group";
+      try {
+        group.save();
+      } catch (CubException e) {
+        // unexpected error
+      }
+  
+      // group was created, and we have fresh instance from the API. 
+      assert group.id != null;
     }
-
-    group.name = "new group";
-    try {
-      group.save();
-    } catch (CubException e) {
-      // unexpected error
-    }
-
-    // group was created, and we have fresh instance from the API. 
-    assert group.id != null;
   }
-}
   
 ```
 
@@ -255,7 +268,7 @@ public class CubCreateExample {
       // setup ApiKey 
       Cub.apiKey = "your api key";
 
-      // Search states with default api key, default offset/count 
+      // Search states with the default API key, default offset/count 
       
       states = State.list();
       
@@ -265,22 +278,22 @@ public class CubCreateExample {
       states = State.list(params);
       State state = (State) states.get(0);
       
-      // The country variable is reference object.
-      // It has id of related country object. And may have full country object.
+      // The country variable is a reference to another object.
+      // It has an id of the related country object. And may have a full country object.
       assert state.country.getId() != null; // It has country id
       assert state.country.getExpanded() == null; // we dont have related country object
   
       // Get states with already populated country objects.
       params = new Params();
   
-      // Tells cub to return states with full country object, not id only.
+      // Tells Cub to return states with a full country object, not id only.
       params.setExpands("country");
       params.setValue("order_by", "-name"); // set order
       states = State.list(params);
   
       state = (State) states.get(0);
   
-      // check country is already populated
+      // Checks that country was populated
       assert state.country.getId() != null;
       Country country = state.country.getExpanded();
       assert country.name != null;
