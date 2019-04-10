@@ -10,7 +10,6 @@ import com.ivelum.CubModelBaseTest;
 import com.ivelum.exception.CubException;
 import com.ivelum.exception.DeserializationException;
 import com.ivelum.net.Params;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 import org.junit.Test;
 
@@ -18,7 +17,7 @@ import org.junit.Test;
 public class CountryTest extends CubModelBaseTest {
 
   @Test
-  public void testListAndGet() throws CubException, UnsupportedEncodingException {
+  public void testListAndGet() throws CubException {
     Params params = new Params();
     params.setValue("order_by", "name");
     params.setCount(1);

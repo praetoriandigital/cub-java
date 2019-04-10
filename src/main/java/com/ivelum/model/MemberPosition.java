@@ -4,7 +4,6 @@ import com.ivelum.exception.CubException;
 import com.ivelum.net.ApiResource;
 import com.ivelum.net.Params;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
@@ -20,14 +19,12 @@ public class MemberPosition extends ApiResource {
   public String position;
   public String unit;
 
-  public static MemberPosition get(String id, Params params)
-          throws CubException, UnsupportedEncodingException {
+  public static MemberPosition get(String id, Params params) throws CubException {
 
     return (MemberPosition) get(id, MemberPosition.class, params);
   }
 
-  public static List<CubObject> list(Params params)
-          throws CubException, UnsupportedEncodingException {
+  public static List<CubObject> list(Params params) throws CubException {
 
     return list(MemberPosition.class, params);
   }

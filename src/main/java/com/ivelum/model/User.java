@@ -7,7 +7,6 @@ import com.ivelum.net.CubResponse;
 import com.ivelum.net.Params;
 import com.ivelum.net.Transport;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.LinkedList;
@@ -15,7 +14,7 @@ import java.util.List;
 
 public class User extends ApiResource {
   public static final String classUrl = "user";
-  public static final List<String> serializationIgnoreFields = new LinkedList<String>(
+  public static final List<String> serializationIgnoreFields = new LinkedList<>(
           Arrays.asList("token"));
 
   public Date birthDate;
@@ -52,10 +51,8 @@ public class User extends ApiResource {
    * @param password Password to login with
    * @return Logged in user object.
    * @throws CubException Base api exception
-   * @throws UnsupportedEncodingException Encode credentials error.
    */
-  public static User login(String username, String password)
-          throws CubException, UnsupportedEncodingException {
+  public static User login(String username, String password) throws CubException {
 
     String endpoint = String.format("/%s/login", classUrl);
     Params params = new Params();
@@ -67,9 +64,7 @@ public class User extends ApiResource {
     return (User) Cub.factory.fromString(resp.getBody());
   }
 
-  public static User get(String id, Params params)
-          throws CubException, UnsupportedEncodingException {
-
+  public static User get(String id, Params params) throws CubException {
     return (User) get(id, User.class, params);
   }
 

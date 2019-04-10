@@ -3,7 +3,6 @@ package com.ivelum.net;
 import static org.junit.Assert.assertTrue;
 
 import com.ivelum.exception.InvalidRequestException;
-import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -15,9 +14,7 @@ import org.junit.Test;
 
 public class UrlifyTest {
   @Test
-  public void testFromParams()
-          throws InvalidRequestException, UnsupportedEncodingException, ParseException {
-
+  public void testFromParams() throws InvalidRequestException, ParseException {
     DateFormat format = new SimpleDateFormat("yyyy-mm-dd");
     format.setTimeZone(TimeZone.getTimeZone("UTC"));
     Params params = new Params();

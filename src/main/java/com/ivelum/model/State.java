@@ -4,7 +4,6 @@ import com.ivelum.exception.CubException;
 import com.ivelum.net.ApiResource;
 import com.ivelum.net.Params;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 public class State extends ApiResource {
@@ -13,9 +12,7 @@ public class State extends ApiResource {
   public ExpandableField<Country> country;
 
 
-  public static List<CubObject> list(Params params)
-          throws CubException, UnsupportedEncodingException {
-
+  public static List<CubObject> list(Params params) throws CubException {
     return list(State.class, params);
   }
 }

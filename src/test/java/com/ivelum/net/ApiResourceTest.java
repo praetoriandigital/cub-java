@@ -9,7 +9,6 @@ import com.ivelum.exception.CubException;
 import com.ivelum.exception.NotFoundException;
 import com.ivelum.model.CubObject;
 import com.ivelum.model.Organization;
-import java.io.UnsupportedEncodingException;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ import org.junit.Test;
 public class ApiResourceTest extends CubModelBaseTest  {
 
   static final class NonExistsModel extends ApiResource {
-    static List<CubObject> list() throws CubException, UnsupportedEncodingException {
+    static List<CubObject> list() throws CubException {
       return list(NonExistsModel.class);
     }
   }
@@ -31,7 +30,7 @@ public class ApiResourceTest extends CubModelBaseTest  {
   }
 
   @Test
-  public void testListNotExistsModel() throws CubException, UnsupportedEncodingException {
+  public void testListNotExistsModel() throws CubException {
     try {
       NonExistsModel.list();
       fail(); // exception must be thrown
@@ -41,7 +40,7 @@ public class ApiResourceTest extends CubModelBaseTest  {
   }
 
   @Test(expected = ApiConnectionException.class)
-  public void testConnectionException() throws CubException, UnsupportedEncodingException {
+  public void testConnectionException() throws CubException {
     Cub.baseUrl = "http://localhost:9999/"; // invalid cub url
 
     Organization.get("any_id"); // any model is ok

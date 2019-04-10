@@ -12,7 +12,6 @@ import com.ivelum.exception.CubException;
 import com.ivelum.exception.DeserializationException;
 import com.ivelum.exception.InvalidRequestException;
 import com.ivelum.net.Params;
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.junit.Test;
@@ -24,7 +23,7 @@ public class UserTest extends CubModelBaseTest {
   static final String test_userpassword = "SJW8Gg";
 
   @Test
-  public void testLogin() throws CubException, UnsupportedEncodingException {
+  public void testLogin() throws CubException {
     User user = User.login(test_username, test_userpassword);
     assertNotNull(user.dateJoined);
     assertEquals(user.email, test_username);

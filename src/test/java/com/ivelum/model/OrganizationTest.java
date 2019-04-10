@@ -14,7 +14,6 @@ import com.ivelum.exception.DeserializationException;
 import com.ivelum.exception.NotFoundException;
 import com.ivelum.net.ApiResource;
 import com.ivelum.net.Params;
-import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ import org.junit.Test;
 public class OrganizationTest extends CubModelBaseTest {
 
   @Test
-  public void testRead() throws CubException, UnsupportedEncodingException {
+  public void testRead() throws CubException {
     String baseUrl = Cub.baseUrl;
     Cub.baseUrl = String.format("http://127.0.0.1:%s/", wireMockRule.port());
     String objUrl = String.format(
@@ -72,7 +71,7 @@ public class OrganizationTest extends CubModelBaseTest {
   }
 
   @Test
-  public void testNotFound() throws UnsupportedEncodingException {
+  public void testNotFound() {
     try {
       Organization.get("non_exists_id");
       // exception expected
@@ -87,7 +86,7 @@ public class OrganizationTest extends CubModelBaseTest {
 
 
   @Test
-  public void testStateExpandableIdOnly() throws CubException, UnsupportedEncodingException {
+  public void testStateExpandableIdOnly() throws CubException {
     List<CubObject> organizations = Organization.list();
     String orgId = organizations.get(0).id;
     Params params = new Params();
@@ -109,7 +108,7 @@ public class OrganizationTest extends CubModelBaseTest {
   }
 
   @Test
-  public void testListOrganizations() throws CubException, UnsupportedEncodingException {
+  public void testListOrganizations() throws CubException {
     List<CubObject> organizations = Organization.list();
     List<String> ids = new LinkedList<>();
     for (CubObject item : organizations) {

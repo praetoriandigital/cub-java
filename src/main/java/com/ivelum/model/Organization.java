@@ -4,7 +4,6 @@ import com.ivelum.exception.CubException;
 import com.ivelum.net.ApiResource;
 import com.ivelum.net.Params;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.List;
 
@@ -28,21 +27,19 @@ public class Organization extends ApiResource {
   public ExpandableField<State> state;
   public ExpandableField<Country> country;
 
-  public static Organization get(String id) throws CubException, UnsupportedEncodingException {
+  public static Organization get(String id) throws CubException {
     return (Organization) get(id, Organization.class, null);
   }
 
-  public static Organization get(String id, Params params)
-          throws CubException, UnsupportedEncodingException {
+  public static Organization get(String id, Params params) throws CubException {
     return (Organization) get(id, Organization.class, params);
   }
 
-  public static List<CubObject> list(Params params)
-          throws CubException, UnsupportedEncodingException {
+  public static List<CubObject> list(Params params) throws CubException {
     return list(Organization.class, params);
   }
 
-  public static List<CubObject> list() throws CubException, UnsupportedEncodingException {
+  public static List<CubObject> list() throws CubException {
     return list(Organization.class);
   }
 }

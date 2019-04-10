@@ -17,21 +17,21 @@ public class ApiResource extends CubObject {
   @SerializedName("object")
   public String objectName;
 
-  public void reload() throws CubException, UnsupportedEncodingException {
+  public void reload() throws CubException {
     this.reload(null);
   }
 
-  public void reload(Params params) throws CubException, UnsupportedEncodingException {
+  public void reload(Params params) throws CubException {
     String endPointUrl = getInstanceUrl(getInstanceName(this.getClass()), this.id);
     CubResponse resp = Transport.get(endPointUrl, params);
     Cub.factory.updateFromString(resp.getBody(), this, this.getInstanceCreator());
   }
 
-  public void save() throws CubException, UnsupportedEncodingException {
+  public void save() throws CubException {
     save(null);
   }
 
-  public void save(Params params) throws CubException, UnsupportedEncodingException {
+  public void save(Params params) throws CubException {
 
     String id = this.id;
     if (params == null) {
@@ -49,13 +49,11 @@ public class ApiResource extends CubObject {
 
   }
 
-  protected static List<CubObject> list(Class<?> cls)
-          throws CubException, UnsupportedEncodingException {
+  protected static List<CubObject> list(Class<?> cls) throws CubException {
     return list(cls, null);
   }
 
-  protected static List<CubObject> list(Class<?> cls, Params params)
-          throws CubException, UnsupportedEncodingException {
+  protected static List<CubObject> list(Class<?> cls, Params params) throws CubException {
     String classUrl = getClassUrl(cls);
     List<CubObject> data = new LinkedList<>();
     String endPointUrl = getListUrl(classUrl);
@@ -100,15 +98,13 @@ public class ApiResource extends CubObject {
     return String.format("%ss", cls.getSimpleName().toLowerCase());
   }
 
-  protected static CubObject get(String id, Class<?> cls, Params params)
-          throws CubException, UnsupportedEncodingException {
+  protected static CubObject get(String id, Class<?> cls, Params params) throws CubException {
     String endPointUrl = getInstanceUrl(getInstanceName(cls), id);
     CubResponse resp = Transport.get(endPointUrl, params);
     return Cub.factory.fromString(resp.getBody(), resp.getApiKey());
   }
 
-  public static CubObject get(String id, Class<?> cls)
-          throws CubException, UnsupportedEncodingException {
+  public static CubObject get(String id, Class<?> cls) throws CubException {
     return get(id, cls, null);
   }
 

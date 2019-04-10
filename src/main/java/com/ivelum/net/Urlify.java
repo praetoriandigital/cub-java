@@ -30,8 +30,14 @@ class Urlify {
     }
   }
 
-  static String fromParams(Params params)
-          throws InvalidRequestException, UnsupportedEncodingException {
+  /**
+   * This methods allows to build URI GET parameters or POST body from params.
+   *
+   * @param params GET or POST parameters
+   * @return Serialized params
+   * @throws InvalidRequestException Invalid request error
+   * */
+  static String fromParams(Params params) throws InvalidRequestException {
     if (params == null) {
       return "";
     }
@@ -46,7 +52,11 @@ class Urlify {
       if (queryStringBuffer.length() > 0) {
         queryStringBuffer.append("&");
       }
-      queryStringBuffer.append(urlEncodePair(flatParam.key, flatParam.value));
+      try {
+        queryStringBuffer.append(urlEncodePair(flatParam.key, flatParam.value));
+      } catch (UnsupportedEncodingException e) {
+        throw new InvalidRequestException(e.getMessage(), e);
+      }
     }
 
     return queryStringBuffer.toString();

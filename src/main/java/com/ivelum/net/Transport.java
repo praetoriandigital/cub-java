@@ -12,7 +12,6 @@ import com.ivelum.exception.InvalidRequestException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -22,8 +21,7 @@ import java.util.Scanner;
 
 public class Transport {
 
-  public static CubResponse post(String endpoint, Params params)
-          throws CubException, UnsupportedEncodingException {
+  public static CubResponse post(String endpoint, Params params) throws CubException {
 
     URL url = getUrlObj(absoluteUrl(endpoint));
     CubResponse resp;
@@ -58,8 +56,7 @@ public class Transport {
     return resp;
   }
 
-  static CubResponse get(String endpoint, Params params)
-          throws CubException, UnsupportedEncodingException {
+  static CubResponse get(String endpoint, Params params) throws CubException {
 
     URL url = getUrlObj(absoluteUrl(endpoint, params));
     try {
@@ -98,14 +95,12 @@ public class Transport {
     }
   }
 
-  private static String absoluteUrl(String endpoint)
-          throws InvalidRequestException, UnsupportedEncodingException {
+  private static String absoluteUrl(String endpoint) throws InvalidRequestException {
 
     return absoluteUrl(endpoint, null);
   }
 
-  public static String absoluteUrl(String endpoint, Params params)
-          throws InvalidRequestException, UnsupportedEncodingException {
+  public static String absoluteUrl(String endpoint, Params params) throws InvalidRequestException {
 
     String absoluteEndpointUrl = String.format("%s%s%s", Cub.baseUrl, Cub.version, endpoint);
     if (params == null) {
