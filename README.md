@@ -137,7 +137,14 @@ User tokens are  [JWT tokens](https://jwt.io). That can be verified using applic
       Cub.apiKey = "your api key";
       
       // login
-      User user = User.login("username", "password");
+      try {
+        User user = User.login("username", "password");
+      } catch (BadRequestException e) {
+        // Process api error response with e.getApiError();
+      } catch (CubException e) {
+        // Process other exception
+        return;
+      }
       
       // Retrieve user jwt token. 
       String userToken = user.getApiKey();
@@ -149,6 +156,7 @@ User tokens are  [JWT tokens](https://jwt.io). That can be verified using applic
 ### Update user profile
 
 ```java
+  import com.ivelum.model.ApiError;
   import com.ivelum.model.CubObject;
   import com.ivelum.model.State;
   import com.ivelum.model.User;
@@ -181,6 +189,10 @@ User tokens are  [JWT tokens](https://jwt.io). That can be verified using applic
       User userCopy;
       try {
         userCopy = User.get(user.id, new Params(user.getApiKey()));
+      } catch (BadRequestException e) {
+        ApiError error = e.getApiError();
+        // error.description contains general description errors. 
+        // error.params could have more detailed errors for each field. 
       } catch (CubException e) {
         return;
       }
