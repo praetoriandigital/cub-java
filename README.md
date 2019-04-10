@@ -7,7 +7,7 @@ UI for most common user functionalities.
 
 The integration with Cub can be done:
 * with direct API usage. 
-* with [cub widget](https://github.com/praetoriandigital/cub-docs) integration.  It allows using already implemented functionality about user registration/login/logout/profile data and more.
+* with [cub widget](https://github.com/praetoriandigital/cub-docs) integration.  It allows the use of already implemented functionalities for user registration/login/logout/profile data and more.
                                                                                 
                                                                                 
 In both cases, you have set up webhook endpoint to keep data in sync.
