@@ -92,8 +92,6 @@ public class UserTest extends CubModelBaseTest {
     assertTrue(user.deleted);
   }
 
-
-
   @Test
   public void testTokenNotSerialized() throws InvalidRequestException {
     User user = new User();

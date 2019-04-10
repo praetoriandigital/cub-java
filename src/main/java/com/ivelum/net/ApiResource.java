@@ -27,6 +27,10 @@ public class ApiResource extends CubObject {
     Cub.factory.updateFromString(resp.getBody(), this, this.getInstanceCreator());
   }
 
+  public void save() throws CubException, UnsupportedEncodingException {
+    save(null);
+  }
+
   public void save(Params params) throws CubException, UnsupportedEncodingException {
 
     String id = this.id;
