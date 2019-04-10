@@ -1,9 +1,9 @@
 # Cub Client for Java [![Build Status](https://travis-ci.org/praetoriandigital/cub-java.svg?branch=master)](https://travis-ci.org/praetoriandigital/cub-java)
 
-Cub OneSource is our system for users auth and management. 
+Cub OneSource is our system for user authorization and management. 
 
-It provides API for data access and the [cub widget](https://github.com/praetoriandigital/cub-docs) that implements 
-UI for most common user functionality. 
+It provides an API for data access and the [cub widget](https://github.com/praetoriandigital/cub-docs) that implements 
+UI for most common user functionalities. 
 
 The integration with Cub can be done:
 * with direct API usage. 
