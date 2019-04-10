@@ -14,11 +14,6 @@ public class GroupMember extends ApiResource {
   public Boolean isAdmin;
   public Date created;
 
-  /**
-   * Passed in the webhooks only. Indicates that object was deleted in cub.
-   */
-  public Boolean deleted;
-
   public static GroupMember get(String id, Params params)
           throws CubException, UnsupportedEncodingException {
 

@@ -19,6 +19,11 @@ public class CubObject {
 
   public String id;
 
+  /**
+   * Passed in the webhooks only. Indicates that object was deleted in cub.
+   */
+  public Boolean deleted;
+
   public void setApiKey(String apiKey) {
     this.apiKey = apiKey;
   }

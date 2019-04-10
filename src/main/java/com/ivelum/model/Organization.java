@@ -27,10 +27,6 @@ public class Organization extends ApiResource {
   public List<String> tags;
   public ExpandableField<State> state;
   public ExpandableField<Country> country;
-  /**
-   * Passed in the webhooks only. Indicates that object was deleted in cub.
-   */
-  public Boolean deleted;
 
   public static Organization get(String id) throws CubException, UnsupportedEncodingException {
     return (Organization) get(id, Organization.class, null);

@@ -20,12 +20,6 @@ public class MemberPosition extends ApiResource {
   public String position;
   public String unit;
 
-  /**
-   * Passed in the webhooks only. Indicates that object was deleted in cub.
-   */
-  public Boolean deleted;
-
-
   public static MemberPosition get(String id, Params params)
           throws CubException, UnsupportedEncodingException {
 
