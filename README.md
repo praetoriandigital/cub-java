@@ -17,7 +17,7 @@ Repository:
 Add this dependency to your project's build file:
 
 ```groovy
-     compile "com.ivelum:cub-java:0.1.2"
+     compile "com.ivelum:cub-java:0.2.0"
 ```
 
 ### Maven users
@@ -39,7 +39,7 @@ Add this dependency to your project's POM:
     <dependency>
         <groupId>com.ivelum</groupId>
         <artifactId>cub-java</artifactId>
-        <version>0.1.2</version>
+        <version>0.2.0</version>
     </dependency>
 ```
 
@@ -87,7 +87,7 @@ public class WebhookProcessor {
       } catch (NotFoundException e) {
         // @todo: Object was deleted in cub. Process it.
         return httpStatusOk;
-      } catch (CubException | UnsupportedEncodingException e) {
+      } catch (CubException e) {
         // Something went wrong.
         return httpStatusError;
       }
@@ -107,7 +107,7 @@ public class WebhookProcessor {
       //    application was removed.
       //    this object can not be synchronized anymore.
       return httpStatusOk;
-    } catch (CubException | UnsupportedEncodingException e) {
+    } catch (CubException e) {
       // error reloading object
       return httpStatusError;
     }
@@ -141,6 +141,51 @@ User tokens are  [JWT tokens](https://jwt.io). That can be verified using applic
       
       // Retrieve user jwt token. 
       String userToken = user.getApiKey();
+    }
+  }
+```
+
+
+### Update user profile
+
+```java
+  import com.ivelum.model.CubObject;
+  import com.ivelum.model.State;
+  import com.ivelum.model.User;
+  import com.ivelum.Cub;
+  
+
+  public class CubUpdateProfileExample {
+    public static void main(String[] args) {
+      // setup ApiKey 
+      Cub.apiKey = "your api key";
+
+      // Retrieving user from server using user jwt token recievied with login method. 
+      user = User.get("user_id", new Params("user token retrieved with login"));
+      
+      try {
+        user = User.get("usr_upfrcJvCTyXCVBj8", new Params("user jwt token"));
+      } catch (CubException e) {
+        return;
+      }
+  
+      user.middleName = "new user middle name";
+  
+      try {
+        user.save();
+      } catch (CubException e) {
+        return;
+      }
+  
+      // retrieve user copy using user token which stored in the user.getApiKey() after login
+      User userCopy;
+      try {
+        userCopy = User.get(user.id, new Params(user.getApiKey()));
+      } catch (CubException e) {
+        return;
+      }
+  
+      assert user.middleName.equals(userCopy.middleName);
     }
   }
 ```
