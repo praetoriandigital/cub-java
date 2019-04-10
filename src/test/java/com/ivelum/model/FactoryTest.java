@@ -10,6 +10,7 @@ import com.ivelum.Cub;
 import com.ivelum.CubModelBaseTest;
 import com.ivelum.exception.CubException;
 import com.ivelum.exception.DeserializationException;
+import com.ivelum.exception.DeserializationUnknownCubModelException;
 import org.junit.Test;
 
 
@@ -32,6 +33,18 @@ public class FactoryTest extends CubModelBaseTest {
     Cub.factory.fromString(unknown);
   }
 
+  @Test(expected = DeserializationException.class)
+  public void testInvalidJsonDeserialization() throws CubException {
+    String unknown = "{\"id\": \"unk_1\"";
+    Cub.factory.fromString(unknown);
+  }
+
+  @Test(expected = DeserializationException.class)
+  public void testJsonWithoutObjectDeserialization() throws CubException {
+    String unknown = "{\"id\": \"unk_1\"}";
+    Cub.factory.fromString(unknown);
+  }
+
   @Test
   public void testRegisterDeregister() {
     String jsonStr = "{\"id\": \"123\", \"key\": \"value\", \"object\": \"tested\"}";
@@ -41,8 +54,10 @@ public class FactoryTest extends CubModelBaseTest {
     try {
       Cub.factory.fromString(jsonStr);
       fail(); // expected deserialization exception
-    } catch (DeserializationException ignored) {
-      // This is expected
+    } catch (DeserializationUnknownCubModelException e) {
+      assertEquals(e.unknownCubModelName, "tested");
+    } catch (DeserializationException ignore) {
+      fail(); // unexpected
     }
 
     // Register and check deserialization
@@ -61,8 +76,10 @@ public class FactoryTest extends CubModelBaseTest {
     try {
       Cub.factory.fromString(jsonStr);
       fail(); // expected deserialization exception
-    } catch (DeserializationException ignored) {
-      // This is expected
+    } catch (DeserializationUnknownCubModelException e) {
+      assertEquals(e.unknownCubModelName, "tested");
+    } catch (DeserializationException ignore) {
+      fail(); // unexpected
     }
   }
 

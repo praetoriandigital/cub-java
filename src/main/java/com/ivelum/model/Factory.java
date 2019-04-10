@@ -6,8 +6,10 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 
 import com.ivelum.exception.DeserializationException;
+import com.ivelum.exception.DeserializationUnknownCubModelException;
 
 import java.lang.reflect.Type;
 import java.util.HashMap;
@@ -74,8 +76,12 @@ public class Factory {
   }
 
   public CubObject fromString(String jsonAsString, String apiKey) throws DeserializationException {
-    JsonElement el = parser.parse(jsonAsString);
-    return fromObject(el, apiKey);
+    try {
+      JsonElement el = parser.parse(jsonAsString);
+      return fromObject(el, apiKey);
+    } catch (JsonSyntaxException e) {
+      throw new DeserializationException(e.getMessage(), e);
+    }
   }
 
   public CubObject fromObject(JsonElement obj) throws DeserializationException {
@@ -83,15 +89,18 @@ public class Factory {
   }
 
   public CubObject fromObject(JsonElement obj, String apiKey) throws DeserializationException {
-    // @todo: handle Null pointer exception
-    String objectName = obj.getAsJsonObject().get("object").getAsString();
+    JsonElement objectElement = obj.getAsJsonObject().get("object");
+    if (objectElement == null) {
+      throw new DeserializationException("Missed object property in json");
+    }
+    String objectName = objectElement.getAsString();
 
     if (knownClasses.containsKey(objectName)) {
       return getGson(apiKey).fromJson(obj, (Type) knownClasses.get(objectName));
     }
 
     String errMsg = String.format("Unsupported object type '%s'", objectName);
-    throw new DeserializationException(errMsg);
+    throw new DeserializationUnknownCubModelException(objectName, errMsg);
   }
 
   public void updateFromString(String jsonAsString, CubObject instance,

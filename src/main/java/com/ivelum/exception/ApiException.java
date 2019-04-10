@@ -23,14 +23,12 @@ public class ApiException extends CubException {
 
     if (error.code == null) {
       throw new CubRuntimeException("Unhandled error response without code", null);
-    }
-
-    if (error.code == 404) {
-      return new NotFoundException(error.description, null);
-    }
-
-    if (error.code == 400) {
+    } else if (error.code == 400) {
       return new BadRequestException(errResponse.error);
+    } else if (error.code == 403) {
+      return new AccessDeniedException(errResponse.error);
+    } else if (error.code == 404) {
+      return new NotFoundException(error.description, null);
     }
     return new ApiException(error.description, null);
   }
