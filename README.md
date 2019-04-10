@@ -1,4 +1,4 @@
-#Cub Client for Java [![Build Status](https://travis-ci.org/praetoriandigital/cub-java.svg?branch=master)](https://travis-ci.org/praetoriandigital/cub-java)
+# Cub Client for Java [![Build Status](https://travis-ci.org/praetoriandigital/cub-java.svg?branch=master)](https://travis-ci.org/praetoriandigital/cub-java)
 
 ## Requirements
 
@@ -192,7 +192,6 @@ User tokens are  [JWT tokens](https://jwt.io). That can be verified using applic
   }
 ```    
     
-##Report bugs
+## Report bugs
 
 Report issues to the project's [issues tracking](https://github.com/praetoriandigital/cub-java/issues) on Github.
-
