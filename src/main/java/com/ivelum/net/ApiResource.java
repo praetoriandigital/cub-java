@@ -38,15 +38,15 @@ public class ApiResource extends CubObject {
       params = new Params(this.apiKey);
     }
 
+    String endPointUrl;
     if (id == null) {
-      throw new RuntimeException("Save without id is not implemented");
+      endPointUrl = getListUrl(getClassUrl(this.getClass()));
+    } else {
+      endPointUrl = getInstanceUrl(getInstanceName(this.getClass()), this.id);
     }
-
-    String endPointUrl = getInstanceUrl(getInstanceName(this.getClass()), this.id);
     this.toParams(params);
     CubResponse resp = Transport.post(endPointUrl, params);
     Cub.factory.updateFromString(resp.getBody(), this, this.getInstanceCreator());
-
   }
 
   protected static List<CubObject> list(Class<?> cls) throws CubException {
