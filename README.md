@@ -10,7 +10,7 @@ The integration with Cub can be done:
 * with [cub widget](https://github.com/praetoriandigital/cub-docs) integration.  It allows the use of already implemented functionalities for user registration/login/logout/profile data and more.
                                                                                 
                                                                                 
-In both cases, you have set up webhook endpoint to keep data in sync.
+In both cases, the webhook endpoint needs to be set up to keep data in sync.
 
 
 ## Requirements
@@ -60,11 +60,10 @@ Add this dependency to your project's POM:
 
 ### Webhooks processing 
 
-When something changes in User model (or any other Model that you are interested in) Cub will send the latest data for the model that was updated to the endpoint. But only webhooks 
-are not reliable and should be used together with API, because:
+When something changes in the User model (or any other Model that you are interested in) Cub will send the latest data for the model that was updated to the endpoint. But  webhooks on their own are not reliable, and should be used in conjunction with the API, because:
 - there can be a race condition between webhooks when webhook can contain outdated data(for example, on retries after failed requests);
-- some webhooks can be lost, even the most reliable systems sometimes fail;
-- webhooks can be sent unintentionally from stage environments (because of misconfigurations)
+- some webhooks can be lost, and even the most reliable systems sometimes fail;
+- misconfigurations can cause webhooks to be sent unintentionally from stage environments 
 
 So, webhooks should be considered as signals to pull the latest data through API.
 
