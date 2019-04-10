@@ -61,7 +61,7 @@ Add this dependency to your project's POM:
 ### Webhooks processing 
 
 When something changes in the User model (or any other Model that you are interested in) Cub will send the latest data for the model that was updated to the endpoint. But  webhooks on their own are not reliable, and should be used in conjunction with the API, because:
-- there can be a race condition between webhooks when webhook can contain outdated data(for example, on retries after failed requests);
+- a webhook can contain outdated data (for example, on retries after a failed request) that would lead to a race condition;
 - some webhooks can be lost, and even the most reliable systems sometimes fail;
 - misconfigurations can cause webhooks to be sent unintentionally from stage environments 
 
