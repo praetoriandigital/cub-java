@@ -278,7 +278,7 @@ User tokens are  [JWT tokens](https://jwt.io). You can verify a token using the 
       State state = (State) states.get(0);
       
       // The country variable is a reference to another object.
-      // It has an id of the related country object, and may have an expanded country object.
+      // It has the id of its related country object, and may have an expanded country object.
       assert state.country.getId() != null; // It has country id
       assert state.country.getExpanded() == null; // we don't have related country object
   
