@@ -278,14 +278,14 @@ User tokens are  [JWT tokens](https://jwt.io). You can verify a token using the 
       State state = (State) states.get(0);
       
       // The country variable is a reference to another object.
-      // It has an id of the related country object. And may have a full country object.
+      // It has an id of the related country object, and may have an expanded country object.
       assert state.country.getId() != null; // It has country id
-      assert state.country.getExpanded() == null; // we dont have related country object
+      assert state.country.getExpanded() == null; // we don't have related country object
   
       // Get states with already populated country objects.
       params = new Params();
   
-      // Tells Cub to return states with a full country object, not id only.
+      // Tells Cub to return states with expanded country objects, not ids only.
       params.setExpands("country");
       params.setValue("order_by", "-name"); // set order
       states = State.list(params);
