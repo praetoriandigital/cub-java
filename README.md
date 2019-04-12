@@ -1,6 +1,6 @@
 # Cub Client for Java [![Build Status](https://travis-ci.org/praetoriandigital/cub-java.svg?branch=master)](https://travis-ci.org/praetoriandigital/cub-java)
 
-Cub OneSource is our system for user authorization and management. 
+Cub is our system for user authorization and management. 
 
 It provides an API for data access and the [cub widget](https://github.com/praetoriandigital/cub-docs) that implements 
 UI for most common user functionalities. 
@@ -60,7 +60,7 @@ Add this dependency to your project's POM:
 
 ### Webhooks processing 
 
-When something changes in the User model (or any other Model that you are interested in) Cub will send the latest data for the model that was updated to the endpoint. But  webhooks on their own are not reliable, and should be used in conjunction with the API, because:
+When something changes in the User model (or any other model that you are interested in) Cub will send the latest data for the model that was updated to the endpoint. But webhooks on their own are not reliable, and should be used in conjunction with the API, because:
 - a webhook can contain outdated data (for example, on retries after a failed request) that would lead to a race condition;
 - some webhooks can be lost, and even the most reliable systems sometimes fail;
 - misconfigurations can cause webhooks to be sent unintentionally from stage environments 
@@ -71,7 +71,7 @@ So, webhooks should be considered as signals to pull the latest data through API
 
 public class WebhookProcessor {
   /**
-   * Process webhook body returns HTTP status for a response.
+   * Process webhook body and returns HTTP status for a response.
    * 
    * @param hookBody webhook HTTP request body
    * @return HttpResponse status code
@@ -280,9 +280,9 @@ User tokens are  [JWT tokens](https://jwt.io). You can verify a token using the 
       // The country variable is a reference to another object.
       // It has the id of its related country object, and may have an expanded country object.
       assert state.country.getId() != null; // It has country id
-      assert state.country.getExpanded() == null; // we don't have related country object
+      assert state.country.getExpanded() == null; // we don't have expanded country object
   
-      // Get states with already populated country objects.
+      // Get states with already expanded country objects.
       params = new Params();
   
       // Tells Cub to return states with expanded country objects, not ids only.
@@ -292,7 +292,7 @@ User tokens are  [JWT tokens](https://jwt.io). You can verify a token using the 
   
       state = (State) states.get(0);
   
-      // Checks that country was populated
+      // Checks that country was expanded
       assert state.country.getId() != null;
       Country country = state.country.getExpanded();
       assert country.name != null;
