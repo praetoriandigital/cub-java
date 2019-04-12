@@ -21,11 +21,20 @@ Java 1.8 or later.
 
 ### Gradle users
 
-Repository: 
+You can use JCenter: 
+```groovy 
+repositories {
+    jcenter()
+}
+```
+
+Or bintray repository: 
 ```groovy
+repositories {
     maven {
         url  "https://dl.bintray.com/ivelum/cub-java/"
     }
+}
 ```
 Add this dependency to your project's build file:
 
@@ -35,7 +44,18 @@ Add this dependency to your project's build file:
 
 ### Maven users
 
-Repository:
+You can use JCentral repository:
+```xml
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <url>https://jcenter.bintray.com/</url>
+        </repository>
+    </repositories>
+```
+
+
+Or bintray repository:
 ```xml
     <repository>
         <snapshots>
