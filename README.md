@@ -183,7 +183,6 @@ User tokens are  [JWT tokens](https://jwt.io). You can verify a token using the 
   }
 ```
 
-
 ### Update user profile
 
 ```java
@@ -252,7 +251,7 @@ User tokens are  [JWT tokens](https://jwt.io). You can verify a token using the 
       try {
         group.save();
       } catch (BadRequestException e) {
-        // validation error. Missed name field. 
+        // validation error. Missing name field. 
         ApiError apiError = e.getApiError();
         assert apiError.params.get("name").contains("required");
       } catch (CubException e) {
