@@ -10,7 +10,7 @@ The integration with Cub can be done:
 * with [cub widget](https://github.com/praetoriandigital/cub-docs) integration.  It allows the use of already implemented functionalities for user registration/login/logout/profile data and more.
                                                                                 
                                                                                 
-In both cases, the webhook endpoint needs to be set up to keep data in sync.
+In both cases, a webhook endpoint needs to be set up to keep data in sync.
 
 
 ## Requirements
@@ -82,7 +82,7 @@ Add this dependency to your project's POM:
 
 When something changes in the User model (or any other model that you are interested in) Cub will send the latest data for the model that was updated to the endpoint. But webhooks on their own are not reliable, and should be used in conjunction with the API, because:
 - a webhook can contain outdated data (for example, on retries after a failed request) that would lead to a race condition;
-- some webhooks can be lost, and even the most reliable systems sometimes fail;
+- some webhooks can be lost, and even the most reliable systems occasionally fail;
 - misconfigurations can cause webhooks to be sent unintentionally from stage environments 
 
 So, webhooks should be considered as signals to pull the latest data through API.
@@ -199,7 +199,7 @@ User tokens are  [JWT tokens](https://jwt.io). You can verify a token using the 
       // setup ApiKey 
       Cub.apiKey = "your api key";
 
-      // Retrieving user from the server using user JWT token received with login method. 
+      // Use User's JWT Token recieved with login method to retrieve user
       user = User.get("user_id", new Params("user token retrieved with login"));
       
       try {
