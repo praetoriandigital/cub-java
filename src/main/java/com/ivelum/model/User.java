@@ -64,6 +64,31 @@ public class User extends ApiResource {
     return (User) Cub.factory.fromString(resp.getBody());
   }
 
+  /**
+   * Registers user
+   * @param firstName new user first name
+   * @param lastName new user last name
+   * @param email new user email
+   * @param passwd new user password
+   * @param registrationSite uid of site in the cub
+   * @return User object registered
+   * @throws CubException Network error or registration error
+   */
+  public static User register(
+          String firstName, String lastName, String email, String passwd, String registrationSite)
+          throws CubException {
+    String endpoint = String.format("/%s/register", classUrl);
+    Params params = new Params();
+    params.setValue("first_name", firstName);
+    params.setValue("last_name", lastName);
+    params.setValue("email", email);
+    params.setValue("password", passwd);
+    params.setValue("registration_site", registrationSite);
+
+    CubResponse resp = Transport.post(endpoint, params);
+    return (User) Cub.factory.fromString(resp.getBody());
+  }
+
   public static User get(String id, Params params) throws CubException {
     return (User) get(id, User.class, params);
   }

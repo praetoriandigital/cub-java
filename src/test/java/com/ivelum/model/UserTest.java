@@ -5,9 +5,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.ivelum.Cub;
 import com.ivelum.CubModelBaseTest;
+import com.ivelum.exception.BadRequestException;
 import com.ivelum.exception.CubException;
 import com.ivelum.exception.DeserializationException;
 import com.ivelum.exception.InvalidRequestException;
@@ -99,5 +101,30 @@ public class UserTest extends CubModelBaseTest {
     assertTrue(params.hasKey("email"));
     assertFalse(params.hasKey("token"));
     assertTrue(User.serializationIgnoreFields.contains("token"));
+  }
+
+  @Test
+  public void testRegister() throws CubException {
+    try {
+      User.register("", "", "", "", "");
+      fail("BadRequestException is expected");
+    } catch (BadRequestException e) {
+      ApiError apiError = e.getApiError();
+      assert apiError.params.get("password").contains("required");
+      assert apiError.params.get("registration_site").contains("required");
+      assert apiError.params.get("last_name").contains("required");
+      assert apiError.params.get("first_name").contains("required");
+      assert apiError.params.get("email").contains("required");
+    }
+
+    try {
+      User.register("fname", "laname", test_username, "any", "any");
+      fail("BadRequestException is expected");
+    } catch (BadRequestException e) {
+      ApiError apiError = e.getApiError();
+      assert apiError.params.get("password").contains("length must be");
+      assert apiError.params.get("registration_site").contains("does not exist");
+      assert apiError.params.get("email").contains("already used");
+    }
   }
 }
