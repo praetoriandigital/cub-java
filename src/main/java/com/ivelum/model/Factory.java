@@ -75,6 +75,22 @@ public class Factory {
     return fromString(jsonAsString, null);
   }
 
+  /**
+   * Parses string into JsonElement
+   * @param data to be parsed
+   * @return result as JsonElement
+   */
+  public JsonElement parse(String data) {
+    return parser.parse(data);
+  }
+
+  /**
+   * Returns CubObject instance from string json
+   * @param jsonAsString string with json
+   * @param apiKey api key to inject into the result object
+   * @return CubObject instance
+   * @throws DeserializationException In case of invalid json or unknown class
+   */
   public CubObject fromString(String jsonAsString, String apiKey) throws DeserializationException {
     try {
       JsonElement el = parser.parse(jsonAsString);

@@ -1,5 +1,6 @@
 package com.ivelum.model;
 
+import com.google.gson.JsonElement;
 import com.ivelum.Cub;
 import com.ivelum.exception.CubException;
 import com.ivelum.net.ApiResource;
@@ -87,6 +88,26 @@ public class User extends ApiResource {
 
     CubResponse resp = Transport.post(endpoint, params);
     return (User) Cub.factory.fromString(resp.getBody());
+  }
+
+  /**
+   * Sends restore password for email
+   * @param email to send restore password link
+   * @param notificationSite the website uid
+   * @return result of restore password as boolean
+   * @throws CubException BadRequestException in case of invalid data
+   */
+  public static boolean restorePassword(String email, String notificationSite) throws CubException {
+    Params params = new Params();
+    params.setValue("email", email);
+    params.setValue("notification_site", notificationSite);
+
+    String endpoint = String.format("/%s/forgot-password", classUrl);
+
+    CubResponse resp = Transport.post(endpoint, params);
+
+    JsonElement el = Cub.factory.parse(resp.getBody());
+    return el.getAsJsonObject().get("result").getAsString().equals("password_reset_sent");
   }
 
   public static User get(String id, Params params) throws CubException {
