@@ -9,10 +9,7 @@ import static org.junit.Assert.fail;
 
 import com.ivelum.Cub;
 import com.ivelum.CubModelBaseTest;
-import com.ivelum.exception.BadRequestException;
-import com.ivelum.exception.CubException;
-import com.ivelum.exception.DeserializationException;
-import com.ivelum.exception.InvalidRequestException;
+import com.ivelum.exception.*;
 import com.ivelum.net.Params;
 import java.util.List;
 
@@ -40,6 +37,32 @@ public class UserTest extends CubModelBaseTest {
     assertEquals(userCopy.id, user.id);
     assertEquals(userCopy.username, user.username);
     assertEquals(userCopy.email, user.email);
+  }
+
+  @Test
+  public void testGetUserAndReissueToken() throws CubException {
+    // invalid user token
+    try {
+      User.getUserAndReissueToken("invalid token");
+    } catch (ApiException e) {
+      assertEquals("You did not provide a valid API key.", e.getMessage());
+    }
+
+    User user = User.login(test_username, test_userpassword);
+    String token = user.getApiKey();
+    // invalid application key
+    try {
+      User.getUserAndReissueToken(token, "invalid_app_key");
+    } catch (BadRequestException e) {
+      assertTrue(e.getApiError().description.contains("app_key"));
+    }
+
+    // success
+    User userCopy = User.getUserAndReissueToken(token);
+
+    assertEquals(userCopy.id, user.id);
+    assertEquals(userCopy.email, user.email);
+
   }
 
   @Test

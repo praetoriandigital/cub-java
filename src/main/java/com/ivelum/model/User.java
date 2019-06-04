@@ -110,6 +110,34 @@ public class User extends ApiResource {
     return el.getAsJsonObject().get("result").getAsString().equals("password_reset_sent");
   }
 
+  /**
+   * Reissue token and returns user with new token. Will use default app api key from Cub.apiKey
+   * @param token old user token
+   * @return User with new token
+   * @throws CubException BadRequestException in case of invalid data.
+   */
+  public static User getUserAndReissueToken(String token) throws CubException {
+    return getUserAndReissueToken(token, Cub.apiKey);
+  }
+
+  /**
+   * Reissue token and returns user with new token.
+   * @param token an old user token to reissue
+   * @param apiKey application api key you want to use
+   * @return User with new token
+   * @throws CubException BadRequestException in case of invalid data.
+   */
+  public static User getUserAndReissueToken(String token, String apiKey) throws CubException {
+    Params params = new Params(token);
+    params.setValue("app_key", apiKey);
+
+    String endpoint = String.format("/%s/reissue-token", User.classUrl);
+    CubResponse resp = Transport.post(endpoint, params);
+
+    return (User) Cub.factory.fromString(resp.getBody());
+  }
+
+
   public static User get(String id, Params params) throws CubException {
     return (User) get(id, User.class, params);
   }
