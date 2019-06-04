@@ -137,6 +137,24 @@ public class User extends ApiResource {
     return (User) Cub.factory.fromString(resp.getBody());
   }
 
+  /**
+   * Updates user username
+   * @param newUsername a new username
+   * @param password user password
+   * @param params params with the apiKey
+   * @return user model with the updated data
+   * @throws CubException BadRequestException in case of invalid data.
+   */
+  public static User updateUsername(String newUsername, String password, Params params)
+          throws CubException {
+    params.setValue("username", newUsername);
+    params.setValue("password", password);
+    String endpoint = String.format("/%s/username", User.classUrl);
+    CubResponse resp = Transport.post(endpoint, params);
+
+    return (User) Cub.factory.fromString(resp.getBody());
+  }
+
 
   public static User get(String id, Params params) throws CubException {
     return (User) get(id, User.class, params);
