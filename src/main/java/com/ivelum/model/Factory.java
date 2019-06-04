@@ -71,10 +71,6 @@ public class Factory {
     knownClasses.remove(name);
   }
 
-  public CubObject fromString(String jsonAsString) throws DeserializationException {
-    return fromString(jsonAsString, null);
-  }
-
   /**
    * Parses string into JsonElement
    * @param data to be parsed
@@ -82,6 +78,11 @@ public class Factory {
    */
   public JsonElement parse(String data) {
     return parser.parse(data);
+  }
+
+
+  public CubObject fromString(String jsonAsString) throws DeserializationException {
+    return fromString(jsonAsString, null);
   }
 
   /**

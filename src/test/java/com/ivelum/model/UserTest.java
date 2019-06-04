@@ -92,7 +92,41 @@ public class UserTest extends CubModelBaseTest {
     }
 
     assertTrue(failed);
+  }
 
+  @Test
+  public void testUpdateEmail() throws CubException {
+    User user = User.login(test_username, test_userpassword);
+
+    // invalid password
+    Boolean failed = false;
+    try {
+      User.updateEmail(
+              "some@mail.com",
+              "invalid_password",
+              "site_id",
+              new Params(user.getApiKey()));
+    } catch (BadRequestException e) {
+      assertTrue(e.getApiError().description.contains("password"));
+      failed = true;
+    }
+
+    assertTrue(failed);
+
+    failed = false;
+    // invalid token
+    try {
+      User.updateEmail(
+              "new_user_email",
+              "invalid_password",
+              "site_id",
+              new Params("invalid token"));
+    } catch (ApiException e) {
+      assertEquals("You did not provide a valid API key.", e.getMessage());
+      failed = true;
+    }
+
+    assertTrue(failed);
   }
 
   @Test
