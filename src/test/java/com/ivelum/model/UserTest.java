@@ -14,6 +14,7 @@ import com.ivelum.exception.BadRequestException;
 import com.ivelum.exception.CubException;
 import com.ivelum.exception.DeserializationException;
 import com.ivelum.exception.InvalidRequestException;
+import com.ivelum.exception.UnauthorizedException;
 import com.ivelum.net.Params;
 import java.util.List;
 
@@ -223,6 +224,26 @@ public class UserTest extends CubModelBaseTest {
       fail("exception excpected");
     } catch( BadRequestException e) {
       e.getApiError().description.equals("Bad token");
+    }
+  }
+
+  @Test
+  public void testGetUserByRestorePasswordToken() throws CubException {
+    String invalidRestorePasswordToken = "invalid";
+    try {
+      User.getUserByRestorePasswordToken(invalidRestorePasswordToken, new Params(Cub.apiKey));
+    } catch (UnauthorizedException e) {
+      assertEquals(e.getApiError().description,"Invalid token");
+    }
+  }
+
+  @Test
+  public void testResetPasswordWithToken() throws CubException {
+    String invalidRestorePasswordToken = "invalid";
+    try {
+      User.resetPasswordWithToken(invalidRestorePasswordToken, "new password", new Params(Cub.apiKey));
+    } catch (UnauthorizedException e) {
+      assertEquals(e.getApiError().description,"Invalid token");
     }
   }
 }

@@ -25,6 +25,8 @@ public class ApiException extends CubException {
       throw new CubRuntimeException("Unhandled error response without code", null);
     } else if (error.code == 400) {
       return new BadRequestException(errResponse.error);
+    } else if (error.code == 401) {
+      return new UnauthorizedException(errResponse.error);
     } else if (error.code == 403) {
       return new AccessDeniedException(errResponse.error);
     } else if (error.code == 404) {

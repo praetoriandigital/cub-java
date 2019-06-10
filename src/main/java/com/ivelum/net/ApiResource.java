@@ -100,8 +100,7 @@ public class ApiResource extends CubObject {
 
   protected static CubObject get(String id, Class<?> cls, Params params) throws CubException {
     String endPointUrl = getInstanceUrl(getInstanceName(cls), id);
-    CubResponse resp = Transport.get(endPointUrl, params);
-    return Cub.factory.fromString(resp.getBody(), resp.getApiKey());
+    return ApiResource.getApi(endPointUrl, params);
   }
 
   public static CubObject get(String id, Class<?> cls) throws CubException {
@@ -116,6 +115,11 @@ public class ApiResource extends CubObject {
               .replaceAll("%5B", "[")
               .replaceAll("%5D", "]");
     }
+  }
+
+  public static CubObject getApi(String url, Params params) throws CubException {
+    CubResponse resp = Transport.get(url, params);
+    return Cub.factory.fromString(resp.getBody(), resp.getApiKey());
   }
 
   public static CubObject postApi(String endpoint, Params params) throws CubException {
