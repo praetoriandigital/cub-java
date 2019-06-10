@@ -39,7 +39,7 @@ repositories {
 Add this dependency to your project's build file:
 
 ```groovy
-     compile "com.ivelum:cub-java:0.3.0"
+     compile "com.ivelum:cub-java:0.4.0"
 ```
 
 ### Maven users
@@ -72,7 +72,7 @@ Add this dependency to your project's POM:
     <dependency>
         <groupId>com.ivelum</groupId>
         <artifactId>cub-java</artifactId>
-        <version>0.3.0</version>
+        <version>0.4.0</version>
     </dependency>
 ```
 
