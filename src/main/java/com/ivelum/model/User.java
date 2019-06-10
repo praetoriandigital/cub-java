@@ -90,7 +90,8 @@ public class User extends ApiResource {
    * @return result of restore password as boolean
    * @throws CubException BadRequestException in case of invalid data
    */
-  public static boolean sendRestorePasswordEmail(String email, String notificationSite) throws CubException {
+  public static boolean sendRestorePasswordEmail(
+          String email, String notificationSite) throws CubException {
     Params params = new Params();
     params.setValue("email", email);
     params.setValue("notification_site", notificationSite);
@@ -164,20 +165,38 @@ public class User extends ApiResource {
    * @param confirmEmailToken email confirmation token
    * @param params with application key
    * @return user object with confirmed email and user token
-   * @throws CubException BadRequestException for invalid token, AccessDeniedException for already confirmed email
+   * @throws CubException BadRequestException for invalid token, AccessDeniedException
+   * for already confirmed email
    */
   public static User confirmEmail(String confirmEmailToken, Params params) throws CubException {
     return (User) ApiResource.postApi(
             String.format("/%s/confirm-email/%s", User.classUrl, confirmEmailToken), params);
   }
 
+  /**
+   * Allows reterive user by restore password token
+   * @param restorePasswordToken restore password token from email
+   * @param params params with the application api key
+   * @return user object without user token
+   * @throws CubException UnauthorizedException for invalid token
+   */
   public static User getUserByRestorePasswordToken(
           String restorePasswordToken, Params params) throws CubException {
     String url = String.format("/%s/reset-password/%s", User.classUrl, restorePasswordToken);
     return (User) ApiResource.getApi(url, params);
   }
 
-  public static User resetPasswordWithToken(String restorePasswordToken, String newPassword, Params params) throws CubException {
+  /**
+   * Set up new user password using restore password token
+   * @param restorePasswordToken restore password token from email
+   * @param newPassword new user password
+   * @param params params with the application api key
+   * @return User object with user token
+   * @throws CubException UnauthorizedException for invalid token, BadRequestException for
+   * invalid data
+   */
+  public static User resetPasswordWithToken(
+          String restorePasswordToken, String newPassword, Params params) throws CubException {
     String url = String.format("/%s/reset-password/%s", User.classUrl, restorePasswordToken);
     params.setValue("new_password", newPassword);
     return (User) ApiResource.postApi(url, params);
