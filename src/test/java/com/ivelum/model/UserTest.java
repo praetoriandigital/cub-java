@@ -222,7 +222,7 @@ public class UserTest extends CubModelBaseTest {
     try {
       User.confirmEmail(invalidConfirmToken, new Params(Cub.apiKey));
       fail("exception excpected");
-    } catch( BadRequestException e) {
+    } catch (BadRequestException e) {
       e.getApiError().description.equals("Bad token");
     }
   }
@@ -241,7 +241,8 @@ public class UserTest extends CubModelBaseTest {
   public void testResetPasswordWithToken() throws CubException {
     String invalidRestorePasswordToken = "invalid";
     try {
-      User.resetPasswordWithToken(invalidRestorePasswordToken, "new password", new Params(Cub.apiKey));
+      User.resetPasswordWithToken(
+          invalidRestorePasswordToken, "new password", new Params(Cub.apiKey));
     } catch (UnauthorizedException e) {
       assertEquals(e.getApiError().description,"Invalid token");
     }
