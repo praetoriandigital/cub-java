@@ -214,4 +214,15 @@ public class UserTest extends CubModelBaseTest {
       assert apiError.params.get("email").contains("already used");
     }
   }
+
+  @Test
+  public void testConfirmEmail() throws CubException {
+    String invalidConfirmToken = "invalid";
+    try {
+      User.confirmEmail(invalidConfirmToken, new Params(Cub.apiKey));
+      fail("exception excpected");
+    } catch( BadRequestException e) {
+      e.getApiError().description.equals("Bad token");
+    }
+  }
 }

@@ -159,6 +159,18 @@ public class User extends ApiResource {
     return (User) ApiResource.postApi(String.format("/%s/email", User.classUrl), params);
   }
 
+  /**
+   * Confirms user email
+   * @param confirmEmailToken email confirmation token
+   * @param params with application key
+   * @return user object with confirmed email and user token
+   * @throws CubException BadRequestException for invalid token, AccessDeniedException for already confirmed email
+   */
+  public static User confirmEmail(String confirmEmailToken, Params params) throws CubException {
+    return (User) ApiResource.postApi(
+            String.format("/%s/confirm-email/%s", User.classUrl, confirmEmailToken), params);
+  }
+
   public static User get(String id) throws CubException {
     return get(id, new Params(Cub.apiKey));
   }
