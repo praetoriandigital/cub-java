@@ -117,4 +117,9 @@ public class ApiResource extends CubObject {
               .replaceAll("%5D", "]");
     }
   }
+
+  public static CubObject postApi(String endpoint, Params params) throws CubException {
+    CubResponse resp = Transport.post(endpoint, params);
+    return Cub.factory.fromString(resp.getBody());
+  }
 }

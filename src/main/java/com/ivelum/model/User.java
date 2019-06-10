@@ -54,15 +54,10 @@ public class User extends ApiResource {
    * @throws CubException Base api exception
    */
   public static User login(String username, String password) throws CubException {
-
-    String endpoint = String.format("/%s/login", classUrl);
     Params params = new Params();
-
     params.setValue("username", username);
     params.setValue("password", password);
-
-    CubResponse resp = Transport.post(endpoint, params);
-    return (User) Cub.factory.fromString(resp.getBody());
+    return (User) ApiResource.postApi(String.format("/%s/login", classUrl), params);
   }
 
   /**
@@ -78,7 +73,6 @@ public class User extends ApiResource {
   public static User register(
           String firstName, String lastName, String email, String passwd, String registrationSite)
           throws CubException {
-    String endpoint = String.format("/%s/register", classUrl);
     Params params = new Params();
     params.setValue("first_name", firstName);
     params.setValue("last_name", lastName);
@@ -86,8 +80,7 @@ public class User extends ApiResource {
     params.setValue("password", passwd);
     params.setValue("registration_site", registrationSite);
 
-    CubResponse resp = Transport.post(endpoint, params);
-    return (User) Cub.factory.fromString(resp.getBody());
+    return (User) ApiResource.postApi(String.format("/%s/register", classUrl), params);
   }
 
   /**
@@ -130,11 +123,7 @@ public class User extends ApiResource {
   public static User getUserAndReissueToken(String token, String apiKey) throws CubException {
     Params params = new Params(token);
     params.setValue("app_key", apiKey);
-
-    String endpoint = String.format("/%s/reissue-token", User.classUrl);
-    CubResponse resp = Transport.post(endpoint, params);
-
-    return (User) Cub.factory.fromString(resp.getBody());
+    return (User) ApiResource.postApi(String.format("/%s/reissue-token", User.classUrl), params);
   }
 
   /**
@@ -149,10 +138,7 @@ public class User extends ApiResource {
           throws CubException {
     params.setValue("username", newUsername);
     params.setValue("password", password);
-    String endpoint = String.format("/%s/username", User.classUrl);
-    CubResponse resp = Transport.post(endpoint, params);
-
-    return (User) Cub.factory.fromString(resp.getBody());
+    return (User) ApiResource.postApi(String.format("/%s/username", User.classUrl), params);
   }
 
   /**
@@ -170,12 +156,12 @@ public class User extends ApiResource {
     params.setValue("email", newEmail);
     params.setValue("password", password);
     params.setValue("notification_site", notificationSite);
-    String endpoint = String.format("/%s/email", User.classUrl);
-    CubResponse resp = Transport.post(endpoint, params);
-
-    return (User) Cub.factory.fromString(resp.getBody());
+    return (User) ApiResource.postApi(String.format("/%s/email", User.classUrl), params);
   }
 
+  public static User get(String id) throws CubException {
+    return get(id, new Params(Cub.apiKey));
+  }
 
   public static User get(String id, Params params) throws CubException {
     return (User) get(id, User.class, params);
