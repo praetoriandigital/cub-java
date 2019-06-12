@@ -7,10 +7,13 @@ import static org.junit.Assert.assertTrue;
 
 import com.ivelum.Cub;
 import com.ivelum.CubModelBaseTest;
+import com.ivelum.exception.AccessDeniedException;
+import com.ivelum.exception.BadRequestException;
+import com.ivelum.exception.CubException;
 import com.ivelum.exception.DeserializationException;
 
+import com.ivelum.net.Params;
 import java.util.List;
-
 import org.junit.Test;
 
 
@@ -51,5 +54,52 @@ public class MemberTest extends CubModelBaseTest {
 
     Member member = (Member) Cub.factory.fromString(memberResponse);
     assertTrue(member.deleted);
+  }
+  
+  @Test
+  public void testAddMemberSuccess() throws CubException {
+    Member memberFromFixture = (Member) Cub.factory.fromString(getFixture("member"));
+    String adminToken = "tokenwithadminrights";
+    mockPostToListEndpoint(Member.class, 200, "member", adminToken);
+  
+    Member member = Member.invite(
+        memberFromFixture.organization.getId(), "valid@lexipolid.email", new Params(adminToken));
+    
+    assertEquals(member.id, memberFromFixture.id);
+    assertEquals(member.user.getId(), memberFromFixture.user.getId());
+  }
+  
+  @Test
+  public void testAddMemberWithInvalidEmail() throws CubException {
+    String token = "123";
+    mockPostToListEndpoint(Member.class, 400, "validation_error_email_not_exists", token);
+    try {
+      Member.invite("org_123", "non@lexipolid.email", new Params(token));
+    } catch (BadRequestException e) {
+      assertTrue(e.getApiError().params.get("email").contains("no account"));
+    }
+  }
+  
+  @Test
+  public void testAlreadyExistsMember() throws CubException {
+    String token = "123";
+    mockPostToListEndpoint(Member.class, 400, "validation_error_user_already_member", token);
+    try {
+      Member.invite("org_123", "already@member.email", new Params(token));
+    } catch (BadRequestException e) {
+      assertTrue(e.getApiError().description.contains("already a member"));
+    }
+  }
+  
+  @Test
+  public void testNoPermissions() throws CubException {
+    
+    String token = "123";
+    mockPostToListEndpoint(Member.class, 403, "validation_error_user_already_member", token);
+    try {
+      Member.invite("org_123", "valid@lixipolid.email", new Params(token));
+    } catch (AccessDeniedException e) {
+      assertTrue(e.getApiError().description.contains("is not allowed to invite new members to"));
+    }
   }
 }

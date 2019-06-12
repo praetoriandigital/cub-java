@@ -1,0 +1,6 @@
+{
+  "error": {
+    "code": 400,
+    "description": "This user is already a member of your organization"
+  }
+}

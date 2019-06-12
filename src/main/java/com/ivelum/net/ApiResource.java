@@ -66,7 +66,7 @@ public class ApiResource extends CubObject {
     return data;
   }
 
-  private static String getClassUrl(Class<?> cls) {
+  public static String getClassUrl(Class<?> cls) {
     String classUrl;
     try {
       // first search classUrl property
@@ -78,7 +78,7 @@ public class ApiResource extends CubObject {
     return classUrl;
   }
 
-  private static String getListUrl(String instanceName) {
+  public static String getListUrl(String instanceName) {
     return String.format("/%s/", instanceName);
   }
 

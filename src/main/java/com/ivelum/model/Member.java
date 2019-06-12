@@ -28,4 +28,22 @@ public class Member extends ApiResource {
 
     return (Member) get(id, Member.class, params);
   }
+  
+  /**
+   * Invites exists lexipol id user to the organization by email
+   * @param orgId organization id
+   * @param email lexipol user email
+   * @param params params with api key that has permissions invite into organization
+   * @return Invited Member instance
+   * @throws CubException BadRequestException for data validation, AccessDeniedException
+   */
+  public static Member invite(String orgId, String email, Params params) throws CubException {
+    Member member = new Member();
+    member.organization = new ExpandableField<>(orgId);
+  
+    params.setValue("email", email);
+    
+    member.save(params);
+    return member;
+  }
 }

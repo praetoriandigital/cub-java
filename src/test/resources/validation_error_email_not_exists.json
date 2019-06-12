@@ -1,0 +1,9 @@
+{
+  "error": {
+    "code": 400,
+    "description": "The following parameters are invalid: email",
+    "params": {
+      "email": "There is no account associated with that email address"
+    }
+  }
+}

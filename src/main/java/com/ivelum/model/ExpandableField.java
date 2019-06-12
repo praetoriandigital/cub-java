@@ -8,6 +8,11 @@ public class ExpandableField<T> {
     this.id = id;
     this.expandedObject = expandedObject;
   }
+  
+  public ExpandableField(String id) {
+    this.id = id;
+    this.expandedObject = null;
+  }
 
   public boolean isExpanded() {
     return expandedObject != null;

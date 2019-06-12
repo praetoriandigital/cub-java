@@ -24,11 +24,6 @@ public class ApiResourceTest extends CubModelBaseTest  {
     }
   }
 
-  @After
-  public void tearDown() {
-    Cub.baseUrl = "https://id.lexipol.com/";
-  }
-
   @Test
   public void testListNotExistsModel() throws CubException {
     try {

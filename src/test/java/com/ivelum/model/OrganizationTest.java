@@ -32,7 +32,7 @@ public class OrganizationTest extends CubModelBaseTest {
     ));
 
 
-    setMock(objUrl, "organization", 200, Cub.apiKey);
+    setGetMock(objUrl, "organization", 200, Cub.apiKey);
     Organization org = Organization.get("org_123");
     Cub.baseUrl = baseUrl;
 
