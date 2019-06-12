@@ -26,7 +26,7 @@ public class ApiResourceTest extends CubModelBaseTest  {
 
   @After
   public void tearDown() {
-    Cub.baseUrl = "https://cub.policeone.com/";
+    Cub.baseUrl = "https://id.lexipol.com/";
   }
 
   @Test
