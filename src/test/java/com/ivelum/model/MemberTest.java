@@ -95,7 +95,8 @@ public class MemberTest extends CubModelBaseTest {
   public void testNoPermissions() throws CubException {
     
     String token = "123";
-    mockPostToListEndpoint(Member.class, 403, "validation_error_user_already_member", token);
+    mockPostToListEndpoint(
+        Member.class, 403, "validation_error_not_allowed_to_invite_member", token);
     try {
       Member.invite("org_123", "valid@lixipolid.email", new Params(token));
     } catch (AccessDeniedException e) {
