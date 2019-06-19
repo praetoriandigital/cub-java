@@ -64,7 +64,29 @@ public class Transport {
 
       String apiKey = getApiKeyOrDefault(params, null);
       HttpURLConnection conn = getCubConnection(params, url);
+      
+      responseCode = conn.getResponseCode();
+      InputStream st = responseCode == 200 ? conn.getInputStream() : conn.getErrorStream();
+      CubResponse resp = new CubResponse(readStream(st), responseCode, apiKey);
+      if (resp.getCode() != 200) {
+        handleResponseError(resp);
+      }
+      return resp;
+    } catch (IOException e) {
+      throw new ApiConnectionException("Api connection error", e);
+    }
+  }
+  
+  
+  static CubResponse delete(String endpoint, Params params) throws CubException {
 
+    URL url = getUrlObj(absoluteUrl(endpoint, params));
+    try {
+      int responseCode;
+
+      String apiKey = getApiKeyOrDefault(params, null);
+      HttpURLConnection conn = getCubConnection(params, url);
+      conn.setRequestMethod("DELETE");
       responseCode = conn.getResponseCode();
       InputStream st = responseCode == 200 ? conn.getInputStream() : conn.getErrorStream();
       CubResponse resp = new CubResponse(readStream(st), responseCode, apiKey);

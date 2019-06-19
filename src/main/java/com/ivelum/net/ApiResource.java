@@ -106,6 +106,38 @@ public class ApiResource extends CubObject {
   public static CubObject get(String id, Class<?> cls) throws CubException {
     return get(id, cls, null);
   }
+  
+  /**
+   * Deletes instance of class cls with id id.
+   * @param id id of model to be deleted
+   * @param cls model class
+   * @param params params with api Key
+   * @return true on success otherwise exception will be thrown
+   * @throws CubException
+   */
+  public static boolean deleteById(String id, Class<?> cls, Params params) throws CubException {
+    String endPointUrl = getInstanceUrl(getInstanceName(cls), id);
+    return ApiResource.deleteApi(endPointUrl, params);
+  }
+  
+  /**
+   * Deletes instance of this model in lexipol.id
+   *
+   * @param params with api key
+   * @throws CubException
+   */
+  public void delete(Params params) throws CubException {
+    deleteById(this.id, this.getClass(), params);
+  }
+  
+  /**
+   * Deletes instance of this model in lexipol.id, will use api key same as for model receiving
+   * @throws CubException
+   */
+  public void delete() throws CubException {
+    Params params = new Params(this.getApiKey());
+    delete(params);
+  }
 
   static String urlEncode(String str) throws UnsupportedEncodingException {
     if (str == null) {
@@ -125,5 +157,10 @@ public class ApiResource extends CubObject {
   public static CubObject postApi(String endpoint, Params params) throws CubException {
     CubResponse resp = Transport.post(endpoint, params);
     return Cub.factory.fromString(resp.getBody());
+  }
+  
+  public static boolean deleteApi(String url, Params params) throws CubException {
+    CubResponse resp = Transport.delete(url, params);
+    return resp.getCode() == 200;
   }
 }
