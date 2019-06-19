@@ -90,17 +90,17 @@ public class GroupMemberTest extends CubModelBaseTest {
   
   @Test
   public void testGroupMemberCreation() throws CubException {
-    GroupMember gmFromFixture = (GroupMember) Cub.factory.fromString(getFixture("groupmember"));
     
-    String apiKey = "apiKey";
     GroupMember gm = new GroupMember();
     gm.member = new ExpandableField<>("mbr_123");
     gm.group = new ExpandableField<>("grp_123");
     gm.isAdmin = false;
   
+    String apiKey = "apiKey";
     mockPostToListEndpoint(GroupMember.class, 200, "groupmember", apiKey);
     gm.save(new Params(apiKey));
     
+    GroupMember gmFromFixture = (GroupMember) Cub.factory.fromString(getFixture("groupmember"));
     assertEquals(gm.id, gmFromFixture.id);
   }
 }
