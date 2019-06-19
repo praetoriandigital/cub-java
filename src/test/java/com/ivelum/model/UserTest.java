@@ -194,7 +194,7 @@ public class UserTest extends CubModelBaseTest {
   @Test
   public void testRegister() throws CubException {
     try {
-      User.register("", "", "", "", "");
+      User.register("", "", "", "", "", new Params());
       fail("BadRequestException is expected");
     } catch (BadRequestException e) {
       ApiError apiError = e.getApiError();
@@ -206,7 +206,7 @@ public class UserTest extends CubModelBaseTest {
     }
 
     try {
-      User.register("fname", "laname", test_username, "any", "any");
+      User.register("fname", "laname", test_username, "any", "any", new Params());
       fail("BadRequestException is expected");
     } catch (BadRequestException e) {
       ApiError apiError = e.getApiError();
@@ -214,6 +214,26 @@ public class UserTest extends CubModelBaseTest {
       assert apiError.params.get("registration_site").contains("does not exist");
       assert apiError.params.get("email").contains("already used");
     }
+  }
+  
+  @Test
+  public void testRegisterSuccess() throws CubException {
+    User fixtureUser = (User) Cub.factory.fromString(getFixture("user"));
+    String apiKey = "apiKey";
+    String endpoint = String.format("/%s/register", User.classUrl);
+    mockPostToListEndpoint(endpoint, 200, "user", apiKey);
+    // register user
+    User user = User.register(
+          fixtureUser.firstName,
+          fixtureUser.lastName,
+          fixtureUser.email,
+          "123123123",
+          fixtureUser.registrationSite.getId(),
+        new Params(apiKey));
+    // check just created users
+    assertEquals("token", user.getApiKey());
+    assertEquals(user.id, fixtureUser.id);
+    assertEquals(user.firstName, fixtureUser.firstName);
   }
 
   @Test

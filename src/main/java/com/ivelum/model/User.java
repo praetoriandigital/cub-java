@@ -59,9 +59,9 @@ public class User extends ApiResource {
     params.setValue("password", password);
     return (User) ApiResource.postApi(String.format("/%s/login", classUrl), params);
   }
-
+  
   /**
-   * Registers user
+   * Registers user using default api key
    * @param firstName new user first name
    * @param lastName new user last name
    * @param email new user email
@@ -71,9 +71,26 @@ public class User extends ApiResource {
    * @throws CubException Network error or registration error
    */
   public static User register(
-          String firstName, String lastName, String email, String passwd, String registrationSite)
-          throws CubException {
-    Params params = new Params();
+      String firstName, String lastName, String email, String passwd, String registrationSite
+  ) throws CubException {
+    Params params = new Params(Cub.apiKey);
+    return register(firstName, lastName, email, passwd, registrationSite, params);
+  }
+  
+  /**
+   * Registers user
+   * @param firstName new user first name
+   * @param lastName new user last name
+   * @param email new user email
+   * @param passwd new user password
+   * @param registrationSite uid of site in the cub
+   * @param params the params object with the api key
+   * @return User object registered
+   * @throws CubException Network error or registration error
+   */
+  public static User register(
+          String firstName, String lastName, String email, String passwd, String registrationSite,
+          Params params) throws CubException {
     params.setValue("first_name", firstName);
     params.setValue("last_name", lastName);
     params.setValue("email", email);

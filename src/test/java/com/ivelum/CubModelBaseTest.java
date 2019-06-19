@@ -67,4 +67,11 @@ public class CubModelBaseTest {
   
     setPostMock(endpoint, fixture, status, apiKey);
   }
+  
+  protected void mockPostToListEndpoint(String path, int status, String fixture, String apiKey) {
+    Cub.baseUrl = String.format("http://127.0.0.1:%s/", wireMockRule.port());
+    String endpoint = String.format("/%s%s", Cub.version, path);
+    
+    setPostMock(endpoint, fixture, status, apiKey);
+  }
 }
