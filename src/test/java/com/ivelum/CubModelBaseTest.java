@@ -35,7 +35,9 @@ public class CubModelBaseTest {
   }
 
   public void setGetMock(String objUrl, String fixtureName, int status, String apiKey) {
-    stubFor(get(urlEqualTo(objUrl))
+    Cub.baseUrl = String.format("http://127.0.0.1:%s/", wireMockRule.port());
+    String endpoint = String.format("/%s%s", Cub.version, objUrl);
+    stubFor(get(urlEqualTo(endpoint))
         .withHeader("Authorization", equalTo(String.format("Bearer %s", apiKey)))
             .willReturn(
                 aResponse()
@@ -63,6 +65,6 @@ public class CubModelBaseTest {
         Cub.version,
         ApiResource.getListUrl(ApiResource.getClassUrl(cls)));
   
-    setPostMock(endpoint, fixture, 200, apiKey);
+    setPostMock(endpoint, fixture, status, apiKey);
   }
 }

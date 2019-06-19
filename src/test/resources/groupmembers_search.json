@@ -1,0 +1,10 @@
+[
+  {
+    "created": "2019-06-18T17:09:14Z",
+    "group": "grp_123",
+    "id": "grm_123",
+    "is_admin": false,
+    "member": "mbr_123",
+    "object": "groupmember"
+  }
+]

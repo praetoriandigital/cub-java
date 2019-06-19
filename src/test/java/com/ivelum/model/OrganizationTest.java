@@ -23,19 +23,11 @@ public class OrganizationTest extends CubModelBaseTest {
 
   @Test
   public void testRead() throws CubException {
-    String baseUrl = Cub.baseUrl;
-    Cub.baseUrl = String.format("http://127.0.0.1:%s/", wireMockRule.port());
-    String objUrl = String.format(
-        "/%s%s",
-        Cub.version,
-        ApiResource.getInstanceUrl(ApiResource.getInstanceName(Organization.class), "org_123"
-    ));
-
+    String objUrl = ApiResource.getInstanceUrl(
+        ApiResource.getInstanceName(Organization.class), "org_123");
 
     setGetMock(objUrl, "organization", 200, Cub.apiKey);
     Organization org = Organization.get("org_123");
-    Cub.baseUrl = baseUrl;
-
 
     assertEquals("org_123", org.id);
     assertEquals("name", org.name);

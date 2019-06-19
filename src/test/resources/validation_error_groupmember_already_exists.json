@@ -1,0 +1,6 @@
+{
+  "error": {
+    "code": 400,
+    "description": "This group member already exists"
+  }
+}

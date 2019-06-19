@@ -10,7 +10,10 @@ import static org.junit.Assert.fail;
 import com.ivelum.Cub;
 import com.ivelum.CubModelBaseTest;
 import com.ivelum.exception.BadRequestException;
+import com.ivelum.exception.CubException;
 import com.ivelum.exception.DeserializationException;
+import com.ivelum.net.Params;
+import java.util.List;
 import org.junit.Test;
 
 
@@ -51,5 +54,53 @@ public class GroupMemberTest extends CubModelBaseTest {
       e.printStackTrace();
       fail("Unexpected exception");
     }
+  }
+  
+  @Test
+  public void testSearchGroupMember() throws CubException {
+    String apiKey = "apiKey";
+    setGetMock("/groupmembers/?member=mbr_123&group=grp_123", "groupmembers_search", 200, apiKey);
+  
+    Params params = new Params(apiKey);
+    params.setValue("member", "mbr_123");
+    params.setValue("group", "grp_123");
+  
+    List<CubObject> result = GroupMember.list(params);
+  
+    assert result.size() == 1;
+  }
+  
+  @Test
+  public void testCreateGroupMemberWhenAlreadyExists() throws CubException {
+    String fixtureName = "validation_error_groupmember_already_exists";
+    String apiKey = "apiKey";
+    mockPostToListEndpoint(GroupMember.class, 400, fixtureName, apiKey);
+    GroupMember gm = new GroupMember();
+  
+    gm.member = new ExpandableField<>("mbr_123");
+    gm.group = new ExpandableField<>("grp_123");
+    gm.isAdmin = false;
+    try {
+      gm.save(new Params(apiKey));
+      fail("BadRequestException expected");
+    } catch (BadRequestException e) {
+      assertEquals(e.getApiError().description, "This group member already exists");
+    }
+  }
+  
+  @Test
+  public void testGroupMemberCreation() throws CubException {
+    GroupMember gmFromFixture = (GroupMember) Cub.factory.fromString(getFixture("groupmember"));
+    
+    String apiKey = "apiKey";
+    GroupMember gm = new GroupMember();
+    gm.member = new ExpandableField<>("mbr_123");
+    gm.group = new ExpandableField<>("grp_123");
+    gm.isAdmin = false;
+  
+    mockPostToListEndpoint(GroupMember.class, 200, "groupmember", apiKey);
+    gm.save(new Params(apiKey));
+    
+    assertEquals(gm.id, gmFromFixture.id);
   }
 }
