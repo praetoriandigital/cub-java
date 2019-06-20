@@ -130,11 +130,11 @@ public class OrganizationTest extends CubModelBaseTest {
     org.name = organizationFixture.name;
     org.address = organizationFixture.address;
     org.postalCode = organizationFixture.postalCode;
-    if (organizationFixture.country.getId() != null){
+    if (organizationFixture.country.getId() != null) {
       org.country = new ExpandableField<>(organizationFixture.country.getId());
     }
     
-    if (organizationFixture.state.getId() != null){
+    if (organizationFixture.state.getId() != null) {
       org.state = new ExpandableField<>(organizationFixture.state.getId());
     }
     org.employees = organizationFixture.employees; // you can find posssible values in lexipol admin
