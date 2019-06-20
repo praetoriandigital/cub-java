@@ -1,6 +1,7 @@
 package com.ivelum.model;
 
 import com.ivelum.exception.CubException;
+import com.ivelum.exception.InvalidRequestException;
 import com.ivelum.net.ApiResource;
 import com.ivelum.net.Params;
 
@@ -41,5 +42,13 @@ public class Organization extends ApiResource {
 
   public static List<CubObject> list() throws CubException {
     return list(Organization.class);
+  }
+  
+  @Override
+  public void toParams(Params params) throws InvalidRequestException {
+    super.toParams(params);
+    if (this.tags.size() > 0) {
+      params.setValue("tags", String.join(",", this.tags));
+    }
   }
 }

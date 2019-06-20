@@ -113,7 +113,7 @@ public class ApiResource extends CubObject {
    * @param cls model class
    * @param params params with api Key
    * @return true on success otherwise exception will be thrown
-   * @throws CubException
+   * @throws CubException usually AccessDeniedException
    */
   public static boolean deleteById(String id, Class<?> cls, Params params) throws CubException {
     String endPointUrl = getInstanceUrl(getInstanceName(cls), id);
@@ -124,7 +124,7 @@ public class ApiResource extends CubObject {
    * Deletes instance of this model in lexipol.id
    *
    * @param params with api key
-   * @throws CubException
+   * @throws CubException usually AccessDeniedException
    */
   public void delete(Params params) throws CubException {
     deleteById(this.id, this.getClass(), params);
@@ -132,7 +132,7 @@ public class ApiResource extends CubObject {
   
   /**
    * Deletes instance of this model in lexipol.id, will use api key same as for model receiving
-   * @throws CubException
+   * @throws CubException usually AccessDeniedException
    */
   public void delete() throws CubException {
     Params params = new Params(this.getApiKey());
