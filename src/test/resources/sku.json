@@ -1,0 +1,7 @@
+{
+  "id": "sku_001",
+  "is_active": true,
+  "object": "sku",
+  "price": 100,
+  "product": "prd_001"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "prd_001",
+  "is_active": true,
+  "name": "Product name",
+  "object": "product",
+  "skus": [
+    {
+      "id": "sku_001",
+      "is_active": true,
+      "object": "sku",
+      "price": 100,
+      "product": "prd_001"
+    }
+  ],
+  "type": "good"
+}

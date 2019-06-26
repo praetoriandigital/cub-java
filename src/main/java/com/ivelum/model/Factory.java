@@ -61,6 +61,8 @@ public class Factory {
     registerKnownClass("groupmember", GroupMember.class);
     registerKnownClass("group", Group.class);
     registerKnownClass("site", Site.class);
+    registerKnownClass("product", Product.class);
+    registerKnownClass("sku", Sku.class);
   }
 
   public void registerKnownClass(String name, Class cls) {
