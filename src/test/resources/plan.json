@@ -1,0 +1,10 @@
+{
+  "amount": 100,
+  "description": "description",
+  "id": "pln_001",
+  "interval": "month",
+  "interval_count": 1,
+  "object": "plan",
+  "product": "prd_001",
+  "require_verification": false
+}
