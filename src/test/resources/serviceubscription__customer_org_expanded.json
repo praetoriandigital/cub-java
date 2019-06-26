@@ -1,0 +1,47 @@
+{
+  "active_since": "2015-10-22T18:12:44Z",
+  "active_till": null,
+  "cancel_at_period_end": false,
+  "coupon": "coupon",
+  "customer": {
+    "bank_accounts": [],
+    "cards": [],
+    "id": "cus_001",
+    "object": "customer",
+    "organization": {
+      "address": "Somewhere St.",
+      "city": "The City",
+      "country": "cry_001",
+      "county": "County",
+      "created": "2010-12-09T00:40:23Z",
+      "email": "email@email.com",
+      "employees": "51-100",
+      "fax": "100-000-000",
+      "hr_phone": "",
+      "id": "org_001",
+      "logo": null,
+      "moderator_approved": true,
+      "modified": "2018-08-17T20:34:40Z",
+      "name": "The name",
+      "object": "organization",
+      "phone": "100-000-0000",
+      "postal_code": "10000-0000",
+      "state": "stt_001",
+      "tags": [
+        "Law Enforcement",
+        "Non-Sworn Law Enforcement"
+      ],
+      "website": ""
+    },
+    "service_subscriptions": [],
+    "user": null
+  },
+  "discount_amount_off": null,
+  "discount_end": null,
+  "discount_percent_off": null,
+  "discount_start": null,
+  "id": "ssu_001",
+  "object": "servicesubscription",
+  "plan": "pln_001",
+  "verification_pending": true
+}

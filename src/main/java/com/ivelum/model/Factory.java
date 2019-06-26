@@ -64,6 +64,8 @@ public class Factory {
     registerKnownClass("product", Product.class);
     registerKnownClass("sku", Sku.class);
     registerKnownClass("plan", Plan.class);
+    registerKnownClass("customer", Customer.class);
+    registerKnownClass("servicesubscription", ServiceSubscription.class);
   }
 
   public void registerKnownClass(String name, Class cls) {

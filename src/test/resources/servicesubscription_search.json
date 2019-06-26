@@ -1,0 +1,17 @@
+[
+  {
+    "active_since": "2015-10-22T18:12:44Z",
+    "active_till": null,
+    "cancel_at_period_end": false,
+    "coupon": "coupon",
+    "customer": "cus_001",
+    "discount_amount_off": null,
+    "discount_end": null,
+    "discount_percent_off": null,
+    "discount_start": null,
+    "id": "ssu_001",
+    "object": "servicesubscription",
+    "plan": "pln_001",
+    "verification_pending": false
+  }
+]

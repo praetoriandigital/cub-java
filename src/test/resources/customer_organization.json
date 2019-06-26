@@ -1,0 +1,7 @@
+{
+  "id": "cus_001",
+  "object": "customer",
+  "organization": "org_001",
+  "service_subscriptions": [],
+  "user": null
+}
