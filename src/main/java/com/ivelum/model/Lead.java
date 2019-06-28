@@ -1,9 +1,9 @@
 package com.ivelum.model;
 
 import com.google.gson.JsonObject;
-import com.ivelum.net.Params;
 import com.ivelum.exception.CubException;
 import com.ivelum.net.ApiResource;
+import com.ivelum.net.Params;
 
 import java.util.Date;
 import java.util.List;
