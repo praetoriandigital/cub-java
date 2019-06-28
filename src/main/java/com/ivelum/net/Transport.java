@@ -25,10 +25,10 @@ public class Transport {
 
     URL url = getUrlObj(absoluteUrl(endpoint));
     CubResponse resp;
+  
+    HttpURLConnection conn = getCubConnection(params, url);
+    
     try {
-
-      HttpURLConnection conn = getCubConnection(params, url);
-
       conn.setDoOutput(true);
       conn.setRequestMethod("POST");
       conn.setRequestProperty("Content-Type", String.format(
@@ -51,6 +51,8 @@ public class Transport {
       }
     } catch (IOException e) {
       throw new ApiConnectionException("Api connection error", e);
+    } finally {
+      conn.disconnect();
     }
 
     return resp;
@@ -59,11 +61,12 @@ public class Transport {
   static CubResponse get(String endpoint, Params params) throws CubException {
 
     URL url = getUrlObj(absoluteUrl(endpoint, params));
+    HttpURLConnection conn = getCubConnection(params, url);
+    
     try {
       int responseCode;
 
       String apiKey = getApiKeyOrDefault(params, null);
-      HttpURLConnection conn = getCubConnection(params, url);
       
       responseCode = conn.getResponseCode();
       InputStream st = responseCode == 200 ? conn.getInputStream() : conn.getErrorStream();
@@ -74,6 +77,8 @@ public class Transport {
       return resp;
     } catch (IOException e) {
       throw new ApiConnectionException("Api connection error", e);
+    } finally {
+      conn.disconnect();
     }
   }
   
@@ -81,11 +86,13 @@ public class Transport {
   static CubResponse delete(String endpoint, Params params) throws CubException {
 
     URL url = getUrlObj(absoluteUrl(endpoint, params));
+  
+    HttpURLConnection conn = getCubConnection(params, url);
+    
     try {
       int responseCode;
 
       String apiKey = getApiKeyOrDefault(params, null);
-      HttpURLConnection conn = getCubConnection(params, url);
       conn.setRequestMethod("DELETE");
       responseCode = conn.getResponseCode();
       InputStream st = responseCode == 200 ? conn.getInputStream() : conn.getErrorStream();
@@ -96,12 +103,20 @@ public class Transport {
       return resp;
     } catch (IOException e) {
       throw new ApiConnectionException("Api connection error", e);
+    } finally {
+      conn.disconnect();
     }
   }
 
-  private static HttpURLConnection getCubConnection(Params params, URL url) throws IOException {
+  private static HttpURLConnection getCubConnection(Params params, URL url)
+      throws ApiConnectionException {
     HttpURLConnection conn;
-    conn = (HttpURLConnection) url.openConnection();
+    try {
+      conn = (HttpURLConnection) url.openConnection();
+    } catch (IOException e) {
+      throw new ApiConnectionException("Api connection error", e);
+    }
+    
     for (Map.Entry<String, String> header : getHeaders(params).entrySet()) {
       conn.setRequestProperty(header.getKey(), header.getValue());
     }
@@ -122,7 +137,7 @@ public class Transport {
     return absoluteUrl(endpoint, null);
   }
 
-  public static String absoluteUrl(String endpoint, Params params) throws InvalidRequestException {
+  private static String absoluteUrl(String endpoint, Params params) throws InvalidRequestException {
 
     String absoluteEndpointUrl = String.format("%s%s%s", Cub.baseUrl, Cub.version, endpoint);
     if (params == null) {
