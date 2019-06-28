@@ -48,6 +48,7 @@ public class CubModelBaseTest {
   }
   
   public void setPostMock(String objUrl, String fixtureName, int status, String apiKey) {
+    Cub.baseUrl = String.format("http://127.0.0.1:%s/", wireMockRule.port());
     stubFor(post(urlEqualTo(objUrl))
         .withHeader("Authorization", equalTo(String.format("Bearer %s", apiKey)))
             .willReturn(
@@ -59,7 +60,6 @@ public class CubModelBaseTest {
   }
   
   protected void mockPostToListEndpoint(Class<?> cls, int status, String fixture, String apiKey) {
-    Cub.baseUrl = String.format("http://127.0.0.1:%s/", wireMockRule.port());
     String endpoint = String.format(
         "/%s%s",
         Cub.version,

@@ -12,6 +12,7 @@ import com.ivelum.exception.BadRequestException;
 import com.ivelum.exception.CubException;
 import com.ivelum.exception.DeserializationException;
 
+import com.ivelum.net.ApiResource;
 import com.ivelum.net.Params;
 import java.util.List;
 import org.junit.Test;
@@ -102,5 +103,19 @@ public class MemberTest extends CubModelBaseTest {
     } catch (AccessDeniedException e) {
       assertTrue(e.getApiError().description.contains("is not allowed to invite new members to"));
     }
+  }
+  
+  @Test
+  public void testSetActive() throws CubException {
+    String memberId = "mbr_001";
+    String apiKey = "apiKey";
+    String endpoint = String.format(
+        "/%s/%s/%s/permissions", Cub.version, ApiResource.getInstanceName(Member.class), memberId);
+    
+    setPostMock(endpoint, "member_active_and_admin", 200, apiKey);
+    Member member = Member.setPermissions(memberId, true, true, new Params(apiKey));
+    
+    assertTrue(member.isAdmin);
+    assertTrue(member.isActive);
   }
 }

@@ -73,7 +73,7 @@ public class LeadTest extends CubModelBaseTest {
     List<CubObject> result;
     do {
       result = Lead.list(fromDate, params);
-      params.setOffset(offset+=count);
+      params.setOffset(offset += count);
       totalLeads += result.size(); // for asserts
       iterations += 1; // for asserts
     } while (result.size() > 0);
