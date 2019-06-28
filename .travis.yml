@@ -6,7 +6,6 @@ matrix:
     - jdk: oraclejdk9
     - jdk: openjdk9
     - jdk: openjdk10
-    - jdk: oraclejdk11
     - jdk: openjdk11
 
 script:
