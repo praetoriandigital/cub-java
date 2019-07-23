@@ -267,4 +267,27 @@ public class UserTest extends CubModelBaseTest {
       assertEquals(e.getApiError().description,"Invalid token");
     }
   }
+  
+  @Test
+  public void testLoginByTokenSuccess() throws CubException {
+    User fixtureUser = (User) Cub.factory.fromString(getFixture("user"));
+    String apiKey = "apiKey";
+    String token = "temporary_token";
+    String endpoint = String.format("/%s/login/%s", User.classUrl, token);
+    mockPostToListEndpoint(endpoint, 200, "user", apiKey);
+    User user = User.loginByToken(token, new Params(apiKey));
+    assertEquals("token", user.getApiKey());
+    assertEquals(user.id, fixtureUser.id);
+    assertEquals(user.firstName, fixtureUser.firstName);
+  }
+  
+  @Test(expected = UnauthorizedException.class)
+  public void testLoginByTokenFailure() throws CubException {
+    String apiKey = "api_key";
+    String token = "temporary_token";
+    String endpoint = String.format("/%s/login/%s", User.classUrl, token);
+    mockPostToListEndpoint(endpoint, 401, "unautorized_error_invalid_token", apiKey);
+    User user = User.loginByToken(token, new Params(apiKey));
+  }
+  
 }

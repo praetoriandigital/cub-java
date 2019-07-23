@@ -218,6 +218,17 @@ public class User extends ApiResource {
     params.setValue("new_password", newPassword);
     return (User) ApiResource.postApi(url, params);
   }
+  
+  /**
+   * Logs user in using temporary token (not a JWT token)
+   * @param token temporary token
+   * @return logged user instance
+   * @throws CubException usually UnauthorizedException for invalid token
+   */
+  public static User loginByToken(String token, Params params) throws CubException {
+    String url = String.format("/%s/login/%s", User.classUrl, token);
+    return (User) ApiResource.postApi(url, params);
+  }
 
   public static User get(String id) throws CubException {
     return get(id, new Params(Cub.apiKey));
