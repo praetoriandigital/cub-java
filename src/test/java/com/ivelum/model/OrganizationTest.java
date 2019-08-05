@@ -140,8 +140,12 @@ public class OrganizationTest extends CubModelBaseTest {
     org.employees = organizationFixture.employees; // you can find posssible values in lexipol admin
     org.phone = organizationFixture.phone; // you can find posssible values in lexipol admin
     org.city = organizationFixture.city;
-    org.tags = organizationFixture.tags;
+    // Test saving withouot tags
     org.save(new Params(apiKey));// if you want to use default key just do not pass params
+    // emulate new organization object
+    org.id = null; // reset id
+    org.tags = organizationFixture.tags;
+    org.save(new Params(apiKey));// save as new object
     assertNotNull(org.id);
     assertEquals(organizationFixture.name, org.name);
     assertEquals(organizationFixture.postalCode, org.postalCode);

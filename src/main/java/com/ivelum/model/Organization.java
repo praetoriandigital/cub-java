@@ -47,7 +47,7 @@ public class Organization extends ApiResource {
   @Override
   public void toParams(Params params) throws InvalidRequestException {
     super.toParams(params);
-    if (this.tags.size() > 0) {
+    if (this.tags != null && this.tags.size() > 0) {
       params.setValue("tags", String.join(",", this.tags));
     }
   }
