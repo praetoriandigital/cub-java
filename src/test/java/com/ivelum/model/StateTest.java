@@ -14,6 +14,15 @@ import org.junit.Test;
 public class StateTest extends CubModelBaseTest {
 
   @Test
+  public void testListByCountry() throws CubException {
+    Params params = new Params();
+    params.setCount(100);
+    params.setValue("country", "cry_3zxJkF8kKdowkmRp"); // USA
+    List<CubObject> states = State.list(params);
+    assertEquals(60, states.size());
+  }
+
+  @Test
   public void testListAndGet() throws CubException {
     Params params = new Params();
     params.setCount(1);

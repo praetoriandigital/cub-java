@@ -28,7 +28,7 @@ public class Member extends ApiResource {
 
     return (Member) get(id, Member.class, params);
   }
-  
+
   /**
    * Invites exists lexipol id user to the organization by email
    * @param orgId organization id
@@ -46,7 +46,7 @@ public class Member extends ApiResource {
     member.save(params);
     return member;
   }
-  
+
   /**
    * Sets member permissions
    * @param id id of member object
