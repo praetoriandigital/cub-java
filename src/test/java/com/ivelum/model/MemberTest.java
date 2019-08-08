@@ -76,9 +76,6 @@ public class MemberTest extends CubModelBaseTest {
     String appKey = "secret_key";
     mockPostToListEndpoint(Member.class, 200, "member", appKey);
 
-    String objUrl = ApiResource.getInstanceUrl(ApiResource.getInstanceName(User.class), "usr_123");
-    setGetMock(objUrl, "user", 200, appKey);
-
     String orgId = memberFromFixture.organization.getId();
     String inviterId = "usr_567";
     String siteId = "ste_123";
@@ -88,9 +85,8 @@ public class MemberTest extends CubModelBaseTest {
             orgId, email, "firstName", "lastName", null,
             inviterId, siteId, new Params(appKey));
 
-    User user = User.get(member.user.getId(), new Params(appKey));
     assertEquals(member.id, memberFromFixture.id);
-    assertEquals(user.id, memberFromFixture.user.getId());
+    assertEquals(member.user.getId(), memberFromFixture.user.getId());
   }
 
   @Test
