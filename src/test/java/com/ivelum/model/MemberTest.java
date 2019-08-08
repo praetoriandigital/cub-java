@@ -69,7 +69,30 @@ public class MemberTest extends CubModelBaseTest {
     assertEquals(member.id, memberFromFixture.id);
     assertEquals(member.user.getId(), memberFromFixture.user.getId());
   }
-  
+
+  @Test
+  public void testAddMemberAndCreateUser() throws CubException {
+    Member memberFromFixture = (Member) Cub.factory.fromString(getFixture("member"));
+    String appKey = "secret_key";
+    mockPostToListEndpoint(Member.class, 200, "member", appKey);
+
+    String objUrl = ApiResource.getInstanceUrl(ApiResource.getInstanceName(User.class), "usr_123");
+    setGetMock(objUrl, "user", 200, appKey);
+
+    String orgId = memberFromFixture.organization.getId();
+    String inviterId = "usr_567";
+    String siteId = "ste_123";
+    String email = "testuser@ivelum.com";
+
+    Member member = Member.inviteNewUser(
+            orgId, email, "firstName", "lastName", null,
+            inviterId, siteId, new Params(appKey));
+
+    User user = User.get(member.user.getId(), new Params(appKey));
+    assertEquals(member.id, memberFromFixture.id);
+    assertEquals(user.id, memberFromFixture.user.getId());
+  }
+
   @Test
   public void testAddMemberWithInvalidEmail() throws CubException {
     String token = "123";

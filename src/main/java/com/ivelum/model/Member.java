@@ -30,7 +30,21 @@ public class Member extends ApiResource {
   }
 
   /**
-   * Invites exists lexipol id user to the organization by email
+   * Invites user to the organization by email
+   * @param orgId organization id
+   * @param params params with api key that has permissions invite into organization
+   * @return Invited Member instance
+   * @throws CubException BadRequestException for data validation, AccessDeniedException
+   */
+  public static Member invite(String orgId, Params params) throws CubException {
+    Member member = new Member();
+    member.organization = new ExpandableField<>(orgId);
+    member.save(params);
+    return member;
+  }
+
+  /**
+   * Invites existent lexipol id user to the organization by email
    * @param orgId organization id
    * @param email lexipol user email
    * @param params params with api key that has permissions invite into organization
@@ -38,13 +52,39 @@ public class Member extends ApiResource {
    * @throws CubException BadRequestException for data validation, AccessDeniedException
    */
   public static Member invite(String orgId, String email, Params params) throws CubException {
-    Member member = new Member();
-    member.organization = new ExpandableField<>(orgId);
-  
     params.setValue("email", email);
-    
-    member.save(params);
-    return member;
+    return invite(orgId, params);
+  }
+
+  /**
+   * Invites new user to the organization by email
+   * @param orgId organization id
+   * @param email user email
+   * @param firstName user first name
+   * @param lastName user last name
+   * @param personalId user personal id (badge, not lexipol UID)
+   * @param senderId id of user who did update, will be used in LID email system
+   * @param siteId id of site where update was done, will be used in LID email system
+   * @param params params with api key that has permissions invite into organization
+   * @return Invited Member instance
+   * @throws CubException BadRequestException for data validation, AccessDeniedException
+   */
+  public static Member inviteNewUser(
+          String orgId, String email, String firstName, String lastName,
+          String personalId, String senderId, String siteId, Params params) throws CubException {
+    if (firstName != null) {
+      params.setValue("first_name", firstName);
+    }
+    if (lastName != null) {
+      params.setValue("last_name", lastName);
+    }
+    if (personalId != null) {
+      params.setValue("personal_id", personalId);
+    }
+    params.setValue("create_user", true);
+    params.setValue("notification_site", siteId);
+    params.setValue("notification_sender", senderId);
+    return invite(orgId, email, params);
   }
 
   /**
@@ -87,7 +127,7 @@ public class Member extends ApiResource {
     }
     if (senderId != null && siteId != null) {
       params.setValue("notification_site", siteId);
-      params.setValue("senderId", senderId);
+      params.setValue("notification_sender", senderId);
     }
     String endpoint = String.format("/%s/%s/permissions", getInstanceName(Member.class), id);
     return (Member) ApiResource.postApi(endpoint, params);
