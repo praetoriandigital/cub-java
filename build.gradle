@@ -13,7 +13,7 @@ plugins {
 }
 
 group 'com.ivelum'
-version '0.8.1'
+version '0.9.0'
 
 sourceCompatibility = 1.8
 
@@ -74,6 +74,11 @@ def pomConfig = {
             name 'Roman Zadoev'
             email "roman.zadoev@ivelum.com"
         }
+        developer {
+            id 'sergunich'
+            name 'Sergey Anuchin'
+            email "sergey.anuchin@ivelum.com"
+        }
     }
 
     scm {
@@ -93,7 +98,7 @@ publishing {
             }
             groupId 'com.ivelum'
             artifactId 'cub-java'
-            version '0.8.1'
+            version '0.9.0'
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'Cub client for java')
@@ -117,8 +122,8 @@ bintray {
         licenses = ['MIT']
         vcsUrl = 'https://github.com/praetoriandigital/cub-java.git'
         version {
-            name = '0.8.1'
-            desc = '0.8.1'
+            name = '0.9.0'
+            desc = '0.9.0'
             released  = new Date()
         }
     }
