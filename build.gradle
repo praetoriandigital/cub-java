@@ -13,7 +13,7 @@ plugins {
 }
 
 group 'com.ivelum'
-version '0.9.0'
+version '0.10.0'
 
 sourceCompatibility = 1.8
 
@@ -98,7 +98,7 @@ publishing {
             }
             groupId 'com.ivelum'
             artifactId 'cub-java'
-            version '0.9.0'
+            version '0.10.0'
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'Cub client for java')
@@ -122,8 +122,8 @@ bintray {
         licenses = ['MIT']
         vcsUrl = 'https://github.com/praetoriandigital/cub-java.git'
         version {
-            name = '0.9.0'
-            desc = '0.9.0'
+            name = '0.10.0'
+            desc = '0.10.0'
             released  = new Date()
         }
     }
