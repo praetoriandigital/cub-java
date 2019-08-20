@@ -290,4 +290,35 @@ public class UserTest extends CubModelBaseTest {
     User user = User.loginByToken(token, new Params(apiKey));
   }
   
+  @Test
+  public void testSetPasswordSuccess() throws CubException {
+    String currentPassword = "currentUserPassword";
+    String newPassword = "newUserPassword";
+    String userToken = "userToken";
+    
+    User fixtureUser = (User) Cub.factory.fromString(getFixture("user"));
+    String endpoint = String.format("/%s/password/", User.classUrl);
+    mockPostToListEndpoint(endpoint, 200, "user", userToken);
+  
+    User userAfter = User.setPassword(currentPassword, newPassword, new Params(userToken));
+    
+    assertEquals(userAfter.id, fixtureUser.id);
+  }
+  
+  @Test
+  public void testSetPasswordInvalidCurrentPassword() throws CubException {
+    String token = "userToken";
+    String endpoint = String.format("/%s/password/", User.classUrl);
+    mockPostToListEndpoint(endpoint, 400, "set_password_error", token);
+  
+    try {
+      User.setPassword("invalidCurrentPassword", "anyNewPass", new Params(token));
+    } catch (BadRequestException e) {
+      assertTrue(400 == e.getApiError().code);
+      assertTrue(e.getApiError().params.containsKey("password"));
+      assertEquals(
+          e.getApiError().params.get("password"),
+          "Your password was entered incorrectly. Please enter it again.");
+    }
+  }
 }

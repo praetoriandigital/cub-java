@@ -229,6 +229,21 @@ public class User extends ApiResource {
     String url = String.format("/%s/login/%s", User.classUrl, token);
     return (User) ApiResource.postApi(url, params);
   }
+  
+  /**
+   * Allows to update user password, the Params api key must be user token
+   * @param oldPwd current user password
+   * @param newPwd new user password
+   * @param params params with user token as api key
+   * @return update user instance
+   * @throws CubException In case of invalid current password BadRequestException will be thrown.
+   */
+  public static User setPassword(String oldPwd, String newPwd, Params params) throws CubException {
+    String url = String.format("/%s/password/", User.classUrl);
+    params.setValue("new_password", newPwd);
+    params.setValue("password", oldPwd);
+    return (User) ApiResource.postApi(url, params);
+  }
 
   public static User get(String id) throws CubException {
     return get(id, new Params(Cub.apiKey));
