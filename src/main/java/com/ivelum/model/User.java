@@ -99,6 +99,29 @@ public class User extends ApiResource {
 
     return (User) ApiResource.postApi(String.format("/%s/register", classUrl), params);
   }
+  
+  /**
+   * Registers user without password. User will recieve link to complete registration.
+   * @param firstName new user first name
+   * @param lastName new user last name
+   * @param email new user email
+   * @param registrationSite uid of site in the cub
+   * @param params the params object with the api key, can be used to specify more user attrs,
+   *               like middle_name or gender
+   * @return User object registered
+   * @throws CubException Network error or registration error
+   */
+  public static User registerWithoutPassword(
+      String firstName, String lastName, String email, String registrationSite, Params params
+  ) throws CubException {
+    params.setValue("first_name", firstName);
+    params.setValue("last_name", lastName);
+    params.setValue("email", email);
+    params.setValue("registration_site", registrationSite);
+  
+    String endPoint = String.format("/%s/register-without-password", classUrl);
+    return (User) ApiResource.postApi(endPoint, params);
+  }
 
   /**
    * Sends restore password for email

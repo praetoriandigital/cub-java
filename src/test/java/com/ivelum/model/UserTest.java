@@ -224,14 +224,55 @@ public class UserTest extends CubModelBaseTest {
     mockPostToListEndpoint(endpoint, 200, "user", apiKey);
     // register user
     User user = User.register(
-          fixtureUser.firstName,
-          fixtureUser.lastName,
-          fixtureUser.email,
-          "123123123",
-          fixtureUser.registrationSite.getId(),
+        fixtureUser.firstName,
+        fixtureUser.lastName,
+        fixtureUser.email,
+        "123123123",
+        fixtureUser.registrationSite.getId(),
         new Params(apiKey));
     // check just created users
     assertEquals("token", user.getApiKey());
+    assertEquals(user.id, fixtureUser.id);
+    assertEquals(user.firstName, fixtureUser.firstName);
+  }
+  
+  @Test
+  public void testRegisterWithoutPasswordRequiredParamss() throws CubException {
+    try {
+      User.registerWithoutPassword("", "", "", "", new Params());
+      fail("BadRequestException is expected");
+    } catch (BadRequestException e) {
+      ApiError apiError = e.getApiError();
+      assert apiError.params.get("registration_site").contains("required");
+      assert apiError.params.get("email").contains("required");
+    }
+    
+    try {
+      User.registerWithoutPassword("fname", "laname", test_username, "any", new Params());
+      fail("BadRequestException is expected");
+    } catch (BadRequestException e) {
+      ApiError apiError = e.getApiError();
+      assert apiError.params.get("registration_site").contains("does not exist");
+      assert apiError.params.get("email").contains("already used");
+    }
+  }
+  
+  @Test
+  public void testRegisterWithoutPasswordSuccess() throws CubException {
+    User fixtureUser = (User) Cub.factory.fromString(getFixture("user"));
+    String apiKey = "apiKey";
+    String endpoint = String.format("/%s/register-without-password", User.classUrl);
+    mockPostToListEndpoint(endpoint, 200, "user", apiKey);
+    // register user
+    Params params = new Params(apiKey);
+    params.setValue("middle_name", fixtureUser.middleName);
+    User user = User.registerWithoutPassword(
+        fixtureUser.firstName,
+        fixtureUser.lastName,
+        fixtureUser.email,
+        fixtureUser.registrationSite.getId(),
+        params);
+    // check just created users
     assertEquals(user.id, fixtureUser.id);
     assertEquals(user.firstName, fixtureUser.firstName);
   }
