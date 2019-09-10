@@ -49,6 +49,8 @@ public class OrganizationTest extends CubModelBaseTest {
     assertEquals("address", org.address);
     assertEquals("hrPhone", org.hrPhone);
     assertEquals("postalCode", org.postalCode);
+    assertEquals("LEXIPOL", org.metadata.get("kms_agency_type").getAsString());
+
     assertFalse(org.country.isExpanded());
     assertEquals("cry_123", org.country.getId());
     assertNull(org.deleted);

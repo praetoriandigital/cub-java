@@ -1,5 +1,6 @@
 package com.ivelum.model;
 
+import com.google.gson.JsonObject;
 import com.ivelum.exception.CubException;
 import com.ivelum.exception.InvalidRequestException;
 import com.ivelum.net.ApiResource;
@@ -22,6 +23,7 @@ public class Organization extends ApiResource {
   public String phone;
   public String postalCode;
   public String website;
+  public JsonObject metadata;
   public Date created;
   public Date modified;
   public List<String> tags;

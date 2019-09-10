@@ -20,5 +20,8 @@
   "tags": [
     "EMS"
   ],
-  "website": "website"
+  "website": "website",
+  "metadata": {
+    "kms_agency_type": "LEXIPOL"
+  }
 }
