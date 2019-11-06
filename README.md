@@ -318,7 +318,34 @@ User tokens are  [JWT tokens](https://jwt.io). You can verify a token using the 
     }
   }
 ```    
-    
+## Iterate over API 
+
+```java
+import com.ivelum.model.CubObject;
+import com.ivelum.model.Country;
+  
+
+public class CubExample {
+    public static void main(String[] args) {
+        int offset = 0;
+        int count = 100;
+      
+        Params params = new Params();
+        params.setCount(count);
+      
+        List<CubObject> result;
+        do {
+          result = Country.list(params);
+          params.setOffset(offset += count);
+          for (CubObject item: result ) {
+            Country country = (Country) item;
+            // your code ... 
+          }
+        } while (result.size() > 0);
+    }
+}
+```
+
 ## Report bugs
 
 Report issues to the project's [issues tracking](https://github.com/praetoriandigital/cub-java/issues) on Github.
