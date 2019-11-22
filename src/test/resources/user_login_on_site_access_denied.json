@@ -1,0 +1,6 @@
+{
+  "error": {
+    "code": 400,
+    "description": "Access denied. Your account is not allowed to access this site. If you think this is a mistake, <a href=\"http://localhost#support\">please contact our support team</a>"
+  }
+}

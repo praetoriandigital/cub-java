@@ -15,6 +15,8 @@ import com.ivelum.exception.CubException;
 import com.ivelum.exception.DeserializationException;
 import com.ivelum.exception.InvalidRequestException;
 import com.ivelum.exception.UnauthorizedException;
+import com.ivelum.exceptions.LoginErrorExampleException;
+import com.ivelum.exceptions.PasswordChangeRequiredExampleException;
 import com.ivelum.net.Params;
 import java.util.List;
 
@@ -22,14 +24,14 @@ import org.junit.Test;
 
 
 public class UserTest extends CubModelBaseTest {
-  static final String test_username = "support@ivelum.com";
-  static final String test_userpassword = "SJW8Gg";
+  private static final String testUsername = "support@ivelum.com";
+  private static final String testUserPassword = "SJW8Gg";
 
   @Test
   public void testLogin() throws CubException {
-    User user = User.login(test_username, test_userpassword);
+    User user = User.login(testUsername, testUserPassword);
     assertNotNull(user.dateJoined);
-    assertEquals(user.email, test_username);
+    assertEquals(user.email, testUsername);
     assertNotNull(user.token);
     assertNotNull(user.lastLogin);
     assertEquals("", user.middleName);
@@ -42,6 +44,164 @@ public class UserTest extends CubModelBaseTest {
     assertEquals(userCopy.username, user.username);
     assertEquals(userCopy.email, user.email);
   }
+  
+  @Test
+  public void testLoginFailed() throws CubException {
+    try {
+      User.login(testUsername, "invalid_password");
+    } catch (BadRequestException e) {
+      assertTrue(e.getApiError().description.contains("correct username and password"));
+    }
+  }
+  
+  /**
+   * Shortcat for the login without site
+   *
+   * @param username email or username
+   * @param password user password
+   * @return user that logged in
+   */
+  private User loginWithExtraErrorHandlingExample(String username, String password)
+      throws CubException {
+    return loginWithExtraErrorHandlingExample(username, password, null);
+  }
+  
+  /**
+   * Example of handling login errors.
+   *
+   * Usually BadRequestException.getApiError().description contains user-friendly message
+   * with html mark up and this information provides usefull information for the user.
+   * BadRequestException.getApiError().params - contains the fields specific error description.
+   * And special keys is BadRequestException.getApiError().params.get("redirect") that contains
+   * redirectUrl for the user to update password. The redirectUrl will be in error
+   * only when site was passed to the login method.
+   * This example provides two extra exceptions.
+   *
+   * @param username email or username for login
+   * @param password user password
+   * @param site the site uid where user is trying to log in. Site must be connected to the app used
+   * @return user that logged in
+   */
+  private User loginWithExtraErrorHandlingExample(String username, String password, String site)
+      throws CubException {
+    try {
+      return User.login(username, password, site);
+    } catch (BadRequestException e) {
+      ApiError apiError = e.getApiError();
+      // special login error with link to change password
+      if (apiError.params != null && apiError.params.containsKey("redirect")) {
+        throw new PasswordChangeRequiredExampleException(apiError);
+      }
+      // general login error that have description with details
+      throw new LoginErrorExampleException(apiError);
+    }
+  }
+  
+  /**
+   * Example of update password required situation.
+   *
+   * Checking user that must update password. And we didn't send site to the login method.
+   * See response example in the fixture
+   */
+  @Test
+  public void testLoginPasswordChangeRequiredWithoutSite() throws CubException {
+    String endpoint = String.format("/%s/login", User.classUrl);
+    mockPostToListEndpoint(endpoint, 400, "login_change_password_required_wo_site", Cub.apiKey);
+    boolean raised = false;
+    try {
+      loginWithExtraErrorHandlingExample("any@localhost", "anypass");
+    } catch (LoginErrorExampleException e) {
+      // LoginError has error message from response.
+      String errDesc = e.getApiError().description;
+      assertTrue(errDesc.contains("You need to change your password before proceeding"));
+      raised = true;
+    }
+    assertTrue(raised);
+  }
+  
+  
+  /**
+   * Example of update password required situation.
+   *
+   * Checking user that must update password. And we sent site to the login method.
+   * See response example in the fixture
+   */
+  @Test
+  public void testLoginPasswordChangeRequiredWithSite() throws CubException {
+    String siteUid = "ste_any";
+    String endpoint = String.format("/%s/login", User.classUrl);
+    mockPostToListEndpoint(endpoint, 400, "login_change_password_required_with_site", Cub.apiKey);
+  
+    boolean changeEmailRequired = false;
+    try {
+      loginWithExtraErrorHandlingExample("any@localhost", "anypass", siteUid);
+    } catch (PasswordChangeRequiredExampleException e) {
+      changeEmailRequired = true;
+      assertTrue(e.getRedirectUrl().contains("http://localhost")); // Redirect user to the e.getRedirectUrl();
+    }
+    assertTrue(changeEmailRequired);
+  }
+  
+  /**
+   * Example of update password required situation.
+   *
+   * Checking user that must update password by email. And we don't send site to the login method.
+   * See response example in the fixture
+   */
+  @Test
+  public void testLoginPasswordChangeByEmailRequiredWithoutSite() throws CubException {
+    String endpoint = String.format("/%s/login", User.classUrl);
+    mockPostToListEndpoint(
+        endpoint, 400, "login_password_change_by_email_required_wo_site", Cub.apiKey);
+    boolean raised = false;
+    try {
+      loginWithExtraErrorHandlingExample("any@localhost", "anypass");
+    } catch (LoginErrorExampleException e) {
+      // LoginError has error message from response.
+      assertTrue(e.getApiError().description.contains("The password you entered was valid, but"));
+      raised = true;
+    }
+    assertTrue(raised);
+  }
+  
+  @Test
+  public void testLoginForInactiveUser() throws CubException {
+    String endpoint = String.format("/%s/login", User.classUrl);
+    mockPostToListEndpoint(
+        endpoint, 400, "user_login_on_site_access_denied", Cub.apiKey);
+    boolean raised = false;
+    try {
+      loginWithExtraErrorHandlingExample("any@localhost", "anypass", "ste_any");
+    } catch (LoginErrorExampleException e) {
+      // LoginError has error message from response.
+      assertTrue(e.getApiError().description.contains("Access denied. Your account"));
+      raised = true;
+    }
+    assertTrue(raised);
+  }
+  
+  /**
+   * Example of update password required situation.
+   *
+   * Checking user that must update password by email. And we sent site to the login method.
+   * See response example in the fixture
+   */
+  @Test
+  public void testLoginPasswordChangeByEmailRequiredWithSite() throws CubException {
+    String siteUid = "ste_any";
+    String endpoint = String.format("/%s/login", User.classUrl);
+    mockPostToListEndpoint(
+        endpoint, 400, "login_password_change_by_email_required_with_site", Cub.apiKey);
+    boolean raised = false;
+    try {
+      loginWithExtraErrorHandlingExample("any@localhost", "any", siteUid);
+    } catch (LoginErrorExampleException e) {
+      raised = true;
+      assertTrue(
+          e.getApiError().description.contains("Please check your email account for an email"));
+    }
+    assertTrue(raised);
+  }
 
   @Test
   public void testGetUserAndReissueToken() throws CubException {
@@ -52,7 +212,7 @@ public class UserTest extends CubModelBaseTest {
       assertEquals("You did not provide a valid API key.", e.getMessage());
     }
 
-    User user = User.login(test_username, test_userpassword);
+    User user = User.login(testUsername, testUserPassword);
     String token = user.getApiKey();
     // invalid application key
     try {
@@ -70,10 +230,9 @@ public class UserTest extends CubModelBaseTest {
 
   @Test
   public void testUpdateUserName() throws CubException {
-    User user = User.login(test_username, test_userpassword);
+    User user = User.login(testUsername, testUserPassword);
 
-    // invalid password
-    Boolean failed = false;
+    boolean failed = false;
     try {
       User.updateUsername("new_user_name", "invalid_password", new Params(user.getApiKey()));
     } catch (BadRequestException e) {
@@ -97,10 +256,9 @@ public class UserTest extends CubModelBaseTest {
 
   @Test
   public void testUpdateEmail() throws CubException {
-    User user = User.login(test_username, test_userpassword);
+    User user = User.login(testUsername, testUserPassword);
 
-    // invalid password
-    Boolean failed = false;
+    boolean failed = false;
     try {
       User.updateEmail(
               "some@mail.com",
@@ -206,7 +364,7 @@ public class UserTest extends CubModelBaseTest {
     }
 
     try {
-      User.register("fname", "laname", test_username, "any", "any", new Params());
+      User.register("fname", "laname", testUsername, "any", "any", new Params());
       fail("BadRequestException is expected");
     } catch (BadRequestException e) {
       ApiError apiError = e.getApiError();
@@ -248,7 +406,7 @@ public class UserTest extends CubModelBaseTest {
     }
     
     try {
-      User.registerWithoutPassword("fname", "laname", test_username, "any", new Params());
+      User.registerWithoutPassword("fname", "laname", testUsername, "any", new Params());
       fail("BadRequestException is expected");
     } catch (BadRequestException e) {
       ApiError apiError = e.getApiError();
@@ -284,7 +442,7 @@ public class UserTest extends CubModelBaseTest {
       User.confirmEmail(invalidConfirmToken, new Params(Cub.apiKey));
       fail("exception excpected");
     } catch (BadRequestException e) {
-      e.getApiError().description.equals("Bad token");
+      assertEquals("Bad token", e.getApiError().description);
     }
   }
 
@@ -328,7 +486,7 @@ public class UserTest extends CubModelBaseTest {
     String token = "temporary_token";
     String endpoint = String.format("/%s/login/%s", User.classUrl, token);
     mockPostToListEndpoint(endpoint, 401, "unautorized_error_invalid_token", apiKey);
-    User user = User.loginByToken(token, new Params(apiKey));
+    User.loginByToken(token, new Params(apiKey));
   }
   
   @Test
@@ -355,7 +513,7 @@ public class UserTest extends CubModelBaseTest {
     try {
       User.setPassword("invalidCurrentPassword", "anyNewPass", new Params(token));
     } catch (BadRequestException e) {
-      assertTrue(400 == e.getApiError().code);
+      assertEquals(400, (int) e.getApiError().code);
       assertTrue(e.getApiError().params.containsKey("password"));
       assertEquals(
           e.getApiError().params.get("password"),

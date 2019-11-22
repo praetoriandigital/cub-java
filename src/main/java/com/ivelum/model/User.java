@@ -50,14 +50,30 @@ public class User extends ApiResource {
    * Login user with passed credentials.
    * @param username Username to login with
    * @param password Password to login with
+   * @param site Uid of site where user is logging in
+   * @return Logged in user object.
+   * @throws CubException Base api exception
+   */
+  public static User login(String username, String password, String site) throws CubException {
+    Params params = new Params();
+    params.setValue("username", username);
+    params.setValue("password", password);
+    if (site != null) {
+      params.setValue("site", site);
+    }
+  
+    return (User) ApiResource.postApi(String.format("/%s/login", classUrl), params);
+  }
+  
+  /**
+   * Login user with passed credentials.
+   * @param username Username to login with
+   * @param password Password to login with
    * @return Logged in user object.
    * @throws CubException Base api exception
    */
   public static User login(String username, String password) throws CubException {
-    Params params = new Params();
-    params.setValue("username", username);
-    params.setValue("password", password);
-    return (User) ApiResource.postApi(String.format("/%s/login", classUrl), params);
+    return login(username, password, null);
   }
   
   /**
@@ -245,6 +261,7 @@ public class User extends ApiResource {
   /**
    * Logs user in using temporary token (not a JWT token)
    * @param token temporary token
+   * @param params extra request params
    * @return logged user instance
    * @throws CubException usually UnauthorizedException for invalid token
    */

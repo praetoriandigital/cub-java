@@ -183,6 +183,24 @@ User tokens are  [JWT tokens](https://jwt.io). You can verify a token using the 
   }
 ```
 
+Error handling for the login errors is similar to the handling BadRequest errors. The getApiError()
+method of exception will return com.ivelum.model.ApiError object. The description field of the ApiError 
+object will have user-friendly message. 
+
+Most common cases:
+* Login and password are invalid. Or user was disabled. See tests folder com.ivelum.model.UserTest.java::testLoginFailed method. 
+* Login and password are valid, but LexipolID require user to update password after login. See tests com.ivelum.model.UserTest.java::testLoginPasswordChangeRequiredWithoutSite 
+and com.ivelum.model.UserTest.java::testLoginPasswordChangeRequiredWithSite methods 
+* Login and password are valid, but LexipolID require user to update password using email after login. See tests com.ivelum.model.UserTest.java::testLoginPasswordChangeByEmailRequiredWithSite 
+and com.ivelum.model.UserTest.java::testLoginPasswordChangeByEmailRequiredWithoutSite methods 
+* User inactive (banned) on site see com.ivelum.model.UserTest.java::testLoginForInactiveUser. 
+This situation is possible only if you passed site to log in into User.login method. 
+
+### Handling BadRequestException
+
+Each com.ivelum.exception.BadRequestException has the getApiError method that provides an ApiError object with more information about the error. 
+See the ApiError definition for more details 
+
 ### Update user profile
 
 ```java
