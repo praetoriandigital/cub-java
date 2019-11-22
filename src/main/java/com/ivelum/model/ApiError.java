@@ -9,8 +9,10 @@ public class ApiError extends CubObject {
    */
   public String description;
   /**
-   * Contains specific errors per field. For example it could have the email key with "Not a valid email" value.
-   * For the updateEmail method.
+   * Contains specific errors per field.
+   *
+   * For example it could have the email key with "Not a valid email" value
+   * for the updateEmail method.
    */
   public HashMap<String, String> params;
 }
