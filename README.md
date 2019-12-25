@@ -196,6 +196,23 @@ and com.ivelum.model.UserTest.java::testLoginPasswordChangeByEmailRequiredWithou
 * User inactive (banned) on site see com.ivelum.model.UserTest.java::testLoginForInactiveUser. 
 This situation is possible only if you passed site to log in into User.login method. 
 
+### Howto renew user JWT token
+
+```java
+public class CubTokenRenewExample {
+  public void example() {     
+    String token = "xxx"; // User JWT token, not an secret or public API key.
+    String userId = "uid_1";
+    User user = User.get(userId, new Params(token));
+    // User response may contain token field
+    assertNull(user.token); // The used token is valid, and the expiration date is far away from now. No token returned.
+    // After some time. About a half of token time life. 
+    user = User.get(user.id, new Params(token));
+    assertNotNull(user.token); // The token is near to expiration date, so new token was returned
+    assertNotEquals(user.token, token); // Now you have the new token, and you can update your cookie or do whatever you want.
+  } 
+}
+```
 ### Handling BadRequestException
 
 Each com.ivelum.exception.BadRequestException has the getApiError method that provides an ApiError object with more information about the error. 
