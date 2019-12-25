@@ -368,7 +368,7 @@ public class UserTest extends CubModelBaseTest {
       fail("BadRequestException is expected");
     } catch (BadRequestException e) {
       ApiError apiError = e.getApiError();
-      assert apiError.params.get("password").contains("length must be");
+      assert apiError.params.get("password").contains("too short");
       assert apiError.params.get("registration_site").contains("does not exist");
       assert apiError.params.get("email").contains("already used");
     }
