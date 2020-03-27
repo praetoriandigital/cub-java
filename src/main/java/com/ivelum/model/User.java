@@ -1,8 +1,11 @@
 package com.ivelum.model;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.ivelum.Cub;
 import com.ivelum.exception.CubException;
+import com.ivelum.exception.LookupAccountNotFoundException;
+import com.ivelum.exception.NotFoundException;
 import com.ivelum.net.ApiResource;
 import com.ivelum.net.CubResponse;
 import com.ivelum.net.Params;
@@ -64,7 +67,7 @@ public class User extends ApiResource {
   
     return (User) ApiResource.postApi(String.format("/%s/login", classUrl), params);
   }
-  
+
   /**
    * Login user with passed credentials.
    * @param username Username to login with
@@ -74,6 +77,50 @@ public class User extends ApiResource {
    */
   public static User login(String username, String password) throws CubException {
     return login(username, password, null);
+  }
+  
+  
+  /**
+   * Checks required sso options for user by username or email.
+   *
+   * @param emailOrUsername username or email for search
+   * @param params options with the publick api key
+   * @return list of possible sso options for user
+   * @throws CubException LookupAccountNotFoundException if user was not found
+   */
+  public static List<SsoOption> lookup(String emailOrUsername, Params params) throws CubException {
+    params.setValue("username", emailOrUsername);
+    String endpoint = "/user/lookup/";
+    CubResponse resp;
+    try {
+      resp = Transport.post(endpoint, params);
+    } catch (NotFoundException e) {
+      throw new LookupAccountNotFoundException(e);
+    }
+    String baseUrl = Cub.baseUrl.replaceAll("/$", "");
+    JsonElement jsonResult = Cub.factory.parse(resp.getBody());
+    
+    List<SsoOption> result = new LinkedList<>();
+    if (! jsonResult.isJsonObject()) {
+      return result;
+    }
+    
+    JsonObject jsonResultObj = (JsonObject) jsonResult;
+    if (!jsonResultObj.has("sso_options")) {
+      return result;
+    }
+    
+    for (JsonElement el: jsonResultObj.getAsJsonArray("sso_options")) {
+      if (!el.isJsonObject()) {
+        continue;
+      }
+      JsonObject ssoJsonObject = (JsonObject) el;
+      String text = ssoJsonObject.get("text").getAsString();
+      String url = baseUrl + ssoJsonObject.get("url").getAsString();
+      result.add(new SsoOption(text, url));
+    }
+    
+    return result;
   }
   
   /**

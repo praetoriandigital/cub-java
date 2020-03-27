@@ -150,9 +150,32 @@ public class WebhookProcessor {
 }
 ```
 
-
 ### API for login and user tokens.
 
+#### Check SSO options before showing login form. 
+
+Some users are required to use SSO for login. 
+Use lookup API to find SSO options available for the user.
+
+```java 
+  public void checkSsoOptions() throws CubException {
+    String emailOrUsername = "any@email.com";
+    String token = "public_key";
+    try { 
+        List<SsoOption> options = User.lookup(email, new Params(token));
+    } catch (LookupAccountNotFoundException e) {
+        // requested account was not founds
+    } 
+    if (options.size() == 0) {
+        // no any sso option set up for user, use regular login
+    } else {
+        // show sso options insead of regular login form. 
+    } 
+  }
+```
+
+
+### Password based login and tokens
 User tokens are  [JWT tokens](https://jwt.io). You can verify a token using the application secret key.
  
 ```java

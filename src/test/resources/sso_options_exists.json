@@ -1,0 +1,13 @@
+{
+  "sso_options": [
+    {
+      "text": "Test 1 login",
+      "url": "/sso/saml2/spif_login/saml2_0000001"
+    },
+    {
+      "text": "Test 2 login",
+      "url": "/sso/saml2/spif_login/saml2_00002"
+    }
+  ],
+  "username": "any@mail.com"
+}

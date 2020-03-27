@@ -14,6 +14,7 @@ import com.ivelum.exception.BadRequestException;
 import com.ivelum.exception.CubException;
 import com.ivelum.exception.DeserializationException;
 import com.ivelum.exception.InvalidRequestException;
+import com.ivelum.exception.LookupAccountNotFoundException;
 import com.ivelum.exception.UnauthorizedException;
 import com.ivelum.exceptions.LoginErrorExampleException;
 import com.ivelum.exceptions.PasswordChangeRequiredExampleException;
@@ -502,6 +503,35 @@ public class UserTest extends CubModelBaseTest {
     User userAfter = User.setPassword(currentPassword, newPassword, new Params(userToken));
     
     assertEquals(userAfter.id, fixtureUser.id);
+  }
+  
+  @Test
+  public void testLookupWithSsoOptions() throws CubException {
+    String email = "any@email.com";
+    String token = "token";
+    String endpoint = String.format("/%s/lookup/", User.classUrl);
+    mockPostToListEndpoint(endpoint, 200, "sso_options_exists", token);
+    List<SsoOption> options = User.lookup(email, new Params(token));
+    assertEquals(2, options.size());
+  }
+  
+  @Test
+  public void testLoookupWithoutSsoOptions() throws CubException {
+    String email = "any@email.com";
+    String token = "token";
+    String endpoint = String.format("/%s/lookup/", User.classUrl);
+    mockPostToListEndpoint(endpoint, 200, "sso_without_options", token);
+    List<SsoOption> options = User.lookup(email, new Params(token));
+    assertEquals(0, options.size());
+  }
+  
+  @Test(expected = LookupAccountNotFoundException.class)
+  public void testLookupValidationError() throws CubException {
+    String email = "nootexist";
+    String token = "token";
+    String endpoint = String.format("/%s/lookup/", User.classUrl);
+    mockPostToListEndpoint(endpoint, 404, "lookup_account_not_found", token);
+    List<SsoOption> options = User.lookup(email, new Params(token));
   }
   
   @Test

@@ -1,0 +1,6 @@
+{
+  "error": {
+    "code": 404,
+    "description": "Account was not found"
+  }
+}
