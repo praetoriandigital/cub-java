@@ -155,7 +155,7 @@ public class WebhookProcessor {
 #### Check SSO options before showing login form. 
 
 Some users are required to use SSO for login. 
-Use lookup API to find SSO options available for the user.
+Use the lookup API method to find what SSO options are available for the user.
 
 ```java 
   public void checkSsoOptions() throws CubException {
@@ -174,9 +174,9 @@ Use lookup API to find SSO options available for the user.
   }
 ```
 
-To start SP-initiated login application must:
-1) Use URL from SsoOption object
-2) Add site get parameter with site UID value to this URL 
+To start SP-initiated login, the application must:
+1) Use a URL from SsoOption object
+2) Add site GET parameter with site UID value to this URL 
 3) Redirect the user to created URL (or just put a link on a page)
 
 For example 
