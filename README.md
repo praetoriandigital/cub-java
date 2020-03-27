@@ -176,13 +176,13 @@ Use the lookup API method to find what SSO options are available for the user.
 
 To start SP-initiated login, the application must:
 1) Use a URL from SsoOption object
-2) Add site GET parameter with site UID value to this URL 
+2) Add site parameter with site UID value to this URL 
 3) Redirect the user to created URL (or just put a link on a page)
 
 For example 
 Url from SsoOption: ```https://id.lexipol.com/sso/saml2/spif_login/saml2_xxx```
 End-user URL on the site ```https://id.lexipol.com/sso/saml2/spif_login/saml2_xxx?site=ste_xxxx```
-Where ```ste_xxxx``` is the site UID where user needs to be logged. 
+Where ```ste_xxxx``` is the site UID where user needs to be logged in. 
 
 
 ### Password based login and tokens
