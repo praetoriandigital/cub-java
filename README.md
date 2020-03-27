@@ -176,8 +176,8 @@ Use the lookup API method to find what SSO options are available for the user.
 
 To start SP-initiated login, the application must:
 1) Use a URL from SsoOption object
-2) Add site parameter with site UID value to this URL 
-3) Redirect the user to created URL (or just put a link on a page)
+2) Append site UID parameter value to this SsoOption URL 
+3) Redirect the user to the newly created URL (or just put a link on a page)
 
 For example 
 Url from SsoOption: ```https://id.lexipol.com/sso/saml2/spif_login/saml2_xxx```
