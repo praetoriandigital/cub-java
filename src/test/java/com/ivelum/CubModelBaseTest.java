@@ -15,9 +15,8 @@ import org.junit.Rule;
 
 
 public class CubModelBaseTest {
-  public final int wireMockPort = 8089;
   @Rule
-  public final WireMockRule wireMockRule = new WireMockRule(wireMockPort);
+  public final WireMockRule wireMockRule = new WireMockRule(0);
   
   @After
   public void tearDown() {
