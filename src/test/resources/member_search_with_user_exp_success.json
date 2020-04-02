@@ -1,0 +1,58 @@
+[
+  {
+    "created": "2018-07-10T12:29:27Z",
+    "group_membership": [
+      "grm_001"
+    ],
+    "id": "mbr_001",
+    "is_active": true,
+    "is_admin": true,
+    "is_payer": false,
+    "is_profile_editable": false,
+    "is_trusted_admin": false,
+    "notes": "",
+    "object": "member",
+    "organization": "org_001",
+    "personal_id": "",
+    "positions": [],
+    "post_id": "",
+    "user": {
+      "birth_date": "2000-01-01",
+      "date_joined": "2016-01-01T11:11:11Z",
+      "email": "any@email",
+      "email_confirmed": true,
+      "email_set_required": false,
+      "first_name": "first",
+      "gender": "male",
+      "id": "usr_001",
+      "invalid_email": false,
+      "invitation_last_sent_on": null,
+      "invitation_sent_count": 0,
+      "last_login": "2020-01-01T11:11:11Z",
+      "last_name": "last",
+      "membership": [
+        "mbr_001"
+      ],
+      "middle_name": "middle",
+      "object": "user",
+      "original_username": "any",
+      "password_change_required": "no",
+      "photo_large": null,
+      "photo_small": null,
+      "purchasing_role_buy_for_organization": false,
+      "purchasing_role_buy_for_self_only": false,
+      "purchasing_role_recommend": false,
+      "purchasing_role_specify_for_organization": false,
+      "registration_site": "ste_001",
+      "retired": false,
+      "subscriptions": [],
+      "userbenefits": [],
+      "username": "username",
+      "usersites": [
+        "ust_001",
+        "ust_002"
+      ],
+      "verified_tags": []
+    }
+  }
+]

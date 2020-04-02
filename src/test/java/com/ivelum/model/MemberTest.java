@@ -2,6 +2,7 @@ package com.ivelum.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -68,6 +69,26 @@ public class MemberTest extends CubModelBaseTest {
     
     assertEquals(member.id, memberFromFixture.id);
     assertEquals(member.user.getId(), memberFromFixture.user.getId());
+  }
+  
+  @Test
+  public void testSearchMember() throws CubException {
+    String appKey = "sk_key";
+    Params params = new Params(appKey);
+    String orgUid = "org_001";
+    params.setValue("organization", orgUid);
+    String email = "search@email.string";
+    params.setValue("email", email);
+    params.setExpands("user");
+    
+    String path = String.format(
+        "/members/?expand=user&organization=%s&email=%s",
+        orgUid, email.replace("@", "%40"));
+    setGetMock(path, "member_search_with_user_exp_success", 200, appKey);
+    List<CubObject> res = Member.list(params);
+    assert res.size() == 1;
+    Member member = (Member) res.get(0);
+    assertNotNull(member.user.getExpanded().email);
   }
 
   @Test

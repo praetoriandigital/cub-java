@@ -133,4 +133,20 @@ public class Member extends ApiResource {
     return (Member) ApiResource.postApi(endpoint, params);
   }
   
+  /**
+   * List of members.
+   *
+   * Most common case is searching member(s) of organization. Supports search by
+   * email (will search member with email)
+   * organization (uid of organization search in). Pass search attributes into params
+   * user (uid) search all memberships of user
+   *
+   * @param params Params object with token or access key and user or organization search value
+   * @return list of found members
+   * @throws CubException in case of api erro
+   */
+  public static List<CubObject> list(Params params) throws CubException {
+    return list(Member.class, params);
+  }
+  
 }
