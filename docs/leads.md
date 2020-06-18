@@ -1,10 +1,10 @@
 ### Leads processing 
 
-Here is the basic example of how to handle leads using webhooks. 
-The main idea is using webhooks as a signal for the sync, not loaded leads. 
+Here is a basic example of how to handle leads using webhooks. 
+The main idea is to use webhooks as a signal for the sync, not loaded leads. 
 
-Please ensure that your webhook endpoint works fast. Do not load all leads in the webhook handler. LID webhooks sender using 20 seconds timeout.
-It is better to move the leads full sync to a separate job. Or do initial import with console program.
+Please ensure that your webhook endpoint is fast enough. Do not load all leads in the webhook handler. The LID webhooks sender uses a 20-second timeout.
+It is better to make the full sync of leads a separate job. Or do an initial import with a console program.
 
 
 
@@ -32,8 +32,8 @@ public class HelloController {
 
 	@PostMapping("/")
 	public String index(@RequestBody Map<String, Object> payload) {
-		// The better approach is using webhooks as a signal to sync your data
-		// There can be a race condition between the most recent webhooks and a webhook with outdated data
+		// The better approach uses webhooks as a signal to sync your data
+		// There can be a race condition between the most recent webhooks and webhooks with outdated data
 		// (for example, on retries after failed requests);
 		// webhooks can get lost, and even the most reliable systems can fail;
 		// webhooks can be sent unintentionally from stage environments (because of misconfigurations)
@@ -56,7 +56,7 @@ public class HelloController {
 				for (CubObject l : result) {
 					//https://github.com/praetoriandigital/cub-java/blob/master/src/main/java/com/ivelum/model/Lead.java
 					Lead lead = (Lead) l;
-					// lead.data contains submited form details
+					// lead.data contains submitted form details
 					if (lead.organization != null ) {  // has nested object
 						// https://github.com/praetoriandigital/cub-java/blob/master/src/main/java/com/ivelum/model/Organization.java
 						Organization org = lead.organization.getExpanded();
@@ -72,8 +72,8 @@ public class HelloController {
 			}
 			params.setOffset(offset += count); // increase offset by page size
 		} while (result.size() > 0); // stop when zero items returned
-        // This sample loads all missing leads. But you can load just one page it will be 
-        // enought to keep your leads in sync after initial import.  
+        // This sample loads all missing leads. But you loading just one page will be 
+        // enough to keep your leads in sync after the initial import.  
 		return "";
 	}
 
