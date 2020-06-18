@@ -1,7 +1,7 @@
 ### Leads processing 
 
 Here is a basic example of how to handle leads using webhooks. 
-The main idea is to use webhooks as a signal for the sync, not loaded leads. 
+The main idea is to use webhooks as a signal for syncing leads, not loading them. 
 
 Please ensure that your webhook endpoint is fast enough. Do not load all leads in the webhook handler. The LID webhooks sender uses a 20-second timeout.
 It is better to make the full sync of leads a separate job. Or do an initial import with a console program.
