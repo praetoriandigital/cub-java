@@ -1,17 +1,18 @@
 language: java
 matrix:
   include:
-    - jdk: openjdk8
-    - jdk: openjdk9
-    - jdk: openjdk10
-    - jdk: openjdk11
-    - jdk: openjdk12
-
+  - jdk: openjdk8
+  - jdk: openjdk9
+  - jdk: openjdk10
+  - jdk: openjdk11
+  - jdk: openjdk12
 script:
-  - ./gradlew --version
-  - ./gradlew check -i
-
+- "./gradlew --version"
+- "./gradlew check -i"
 notifications:
   slack:
     rooms:
       secure: jMQpYpAWpzoOckifq3be/2n02oev6MVvdP/iXRyLM7yEof/VHbai7WjVVFYPk+1k4YjPuYMA87iMuMwYv+BcX2HnY16V9lNvy2fs5hDgJdf2UJFHtMaqs5bbXA/S+5651Cv1hpukRV9P6xXaVsSX1uXcnnqhVW/IFvgson0zfHkm66zsTxzQ/rMP961yKm6fRpzSVe3HyHE7AKPriEcMF/cdQyvHkYP9F98R/vwiDrgjt4uiiVe+CG+sN/VFMpy1lS15A72OiyZ5KRx86m/t76wP/bCTfLkB2utjlLeYJk48xMW5u4w6/lfYWWMUMpDVG4YNUrfhzt8i9UAZ+rOHwSmkMYhUwl6PbQmkbcqPY3zssctdJQma3PPYSDkohnfnraqU+3YrlEndBZFJ7fSMOAdPCXTgyq6nmawiHrF7TO4uF1JTJm36/wwAPO55zA6goKz3iwmVX0V8NVZ7TQOJ8KtEWM1v9jNLBO3aqvN6yWmHTEB4tkr+ObESg4rR9EebmftNWVm9MabXCM7SgnRrjlBDRbc6aAfcUCPOxgrA4GWS32lIe95sC0ZMR/tE//4+YCLF7iWCmconLw0GWl26oxFsWlEf+gGxjMtLm1NLE9Lps6NrJdxc15WKHpmEPQ7lcgKA4YYvEhgq3W4FufriS0TJRu6SUNm8VLXJdGXDUgA=
+env:
+  global:
+    secure: sQ1hx33PxXSGoCzEBzhUhwg7UGRYBl8C4NBk8l2wad4OmGYsJyuPuWr0WnWWWxzFs9OZtZH6ofZwuXRQfgG5wzWO3VvqJcLLBOEQHB+98AC2bI+6jVEL3j575lNW+bZeCGvvaHUssXk3iRFMJQ1EU3b2QuR9fbJuIirG/j4amRKpXLpwQT19tF4D+wuzUBAAYtff1L2JaQL7teodaujiB3JlWbQ2G4ZsXceDm1S5nU5UFt5Z+BGoXdbZz+Aw+4K5ibFkb0yLWRI8i82NGJUYuW0E/nrCzWAvyE4w1gSfCGdufB3BPnhezMcyKmM3Vz3fFoURKVJ4mSxQECK/l8/PYCecKK+Ll80i7WVRGN23/XyMptbeaL4jXyTT/6owcvv6ui+64As4KhXGO11CUzWQu6sktfFfMQYhwebKEbsuPV2YWw45NbRgkej27v0mTSvffOSwtNAvpIJCGXSvVj1heMFpyWXp2+tpjde03oPzP5tmm5bITcJe73PekuEL5tQxUWQg+cj0XQsJGSXGcRz1JGvHKnr6Phr8ebIj4FlLxSd/7YH50DkZbCXb7BWewp16O4O9L6NNp28aNBmEidLBeFWfXpNfyUXcMiDDxRhWaIE+Yq//h2Z4N7eDwAqfI2+lvrmxhfuMqjuJEF0ieEd9p/8Q2LY00FlDlRE3PF8FR5I=

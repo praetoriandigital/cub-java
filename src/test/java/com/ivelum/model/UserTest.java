@@ -20,13 +20,21 @@ import com.ivelum.exceptions.LoginErrorExampleException;
 import com.ivelum.exceptions.PasswordChangeRequiredExampleException;
 import com.ivelum.net.Params;
 import java.util.List;
+import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
 
 
 public class UserTest extends CubModelBaseTest {
   private static final String testUsername = "support@ivelum.com";
-  private static final String testUserPassword = "SJW8Gg";
+  private String testUserPassword = "";
+
+  @Before
+  public void initTestUserPass() {
+    Map<String, String> env = System.getenv();
+    this.testUserPassword = env.get("TEST_USER_PASS");
+  }
 
   @Test
   public void testLogin() throws CubException {
