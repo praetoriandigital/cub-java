@@ -13,9 +13,10 @@ plugins {
 }
 
 group 'com.ivelum'
-version '0.15.0'
+version '0.16.0'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 repositories {
     mavenCentral()

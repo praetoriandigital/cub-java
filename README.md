@@ -15,7 +15,8 @@ In both cases, a webhook endpoint needs to be set up to keep data in sync.
 
 ## Requirements
 
-Java 1.8 or later.
+Java 1.7 or later. To build the project for 1.7 in gradle,
+ you need to have jdk 9+ this uses flags for backwards compatibility.
 
 ## Installation
 
