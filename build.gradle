@@ -99,7 +99,7 @@ publishing {
             }
             groupId 'com.ivelum'
             artifactId 'cub-java'
-            version '0.15.0'
+            version '0.16.0'
             pom.withXml {
                 def root = asNode()
                 root.appendNode('description', 'Cub client for java')
@@ -123,8 +123,8 @@ bintray {
         licenses = ['MIT']
         vcsUrl = 'https://github.com/praetoriandigital/cub-java.git'
         version {
-            name = '0.15.0'
-            desc = '0.15.0'
+            name = '0.16.0'
+            desc = '0.16.0'
             released  = new Date()
         }
     }

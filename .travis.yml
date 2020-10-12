@@ -1,6 +1,7 @@
 language: java
 matrix:
   include:
+  - jdk: openjdk7
   - jdk: openjdk8
   - jdk: openjdk9
   - jdk: openjdk10
