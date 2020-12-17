@@ -171,14 +171,14 @@ public void checkSsoOptions() throws CubException {
   String emailOrUsername = "any@email.com";
   String token = "public_key";
   try {
-      List<SsoOption> options = User.lookup(email, new Params(token));
+    List<SsoOption> options = User.lookup(email, new Params(token));
   } catch (LookupAccountNotFoundException e) {
-      // requested account was not founds
+    // requested account was not founds
   }
   if (options.size() == 0) {
-      // no any sso option set up for user, use regular login
+    // no any sso option set up for user, use regular login
   } else {
-      // show sso options insead of regular login form.
+    // show sso options insead of regular login form.
   }
 }
 ```
