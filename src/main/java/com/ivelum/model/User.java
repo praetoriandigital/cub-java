@@ -18,6 +18,7 @@ import java.util.List;
 
 public class User extends ApiResource {
   public static final String classUrl = "user";
+  public static final String listUrl = "users";
   public static final List<String> serializationIgnoreFields = new LinkedList<>(
           Arrays.asList("token"));
 
@@ -78,8 +79,8 @@ public class User extends ApiResource {
   public static User login(String username, String password) throws CubException {
     return login(username, password, null);
   }
-  
-  
+
+
   /**
    * Checks required sso options for user by username or email.
    *
@@ -122,7 +123,7 @@ public class User extends ApiResource {
     
     return result;
   }
-  
+
   /**
    * Registers user using default api key
    * @param firstName new user first name
@@ -373,5 +374,9 @@ public class User extends ApiResource {
   @Override
   public void setApiKey(String apiKey) {
     super.setApiKey(this.token == null ? apiKey : this.token);
+  }
+
+  public static List<CubObject> list(Params params) throws CubException {
+    return list(User.class,params);
   }
 }

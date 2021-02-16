@@ -554,7 +554,18 @@ public class UserTest extends CubModelBaseTest {
     List<SsoOption> options = User.lookup(email, new Params(token));
     assertEquals(0, options.size());
   }
-  
+
+  @Test
+  public void testSearchUserByEmail() throws CubException {
+    String email = "any@email.com";
+    String token = "token";
+    Params params = new Params(token);
+    params.setValue("email", email);
+    setGetMock("/users/?email=any%40email.com", "users", 200, token);
+    List<CubObject> users = User.list(params);
+    assertEquals(1, users.size());
+  }
+
   @Test(expected = LookupAccountNotFoundException.class)
   public void testLookupValidationError() throws CubException {
     String email = "nootexist";

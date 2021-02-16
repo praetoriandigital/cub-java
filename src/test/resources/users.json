@@ -1,0 +1,37 @@
+[
+  {
+    "birth_date": "2011-04-03T08:18:39Z",
+    "date_joined": "2012-11-06T04:16:22Z",
+    "email": "testuser@ivelum.com",
+    "email_confirmed": false,
+    "email_set_required": false,
+    "first_name": "firstName",
+    "gender": "male",
+    "id": "usr_123",
+    "invalid_email": false,
+    "invitation_last_sent_on": "2012-11-06T04:16:22Z",
+    "invitation_sent_count": 0,
+    "last_login": "2019-04-03T08:18:39Z",
+    "last_name": "lastName",
+    "membership": ["mbr_123"],
+    "middle_name": "middleName",
+    "object": "user",
+    "original_username": "originalUsername",
+    "password_change_required": "no",
+    "photo_large": "photo_large.png",
+    "photo_small": "photo_small.png",
+    "purchasing_role_buy_for_organization": false,
+    "purchasing_role_buy_for_self_only": false,
+    "purchasing_role_recommend": false,
+    "purchasing_role_specify_for_organization": false,
+    "registration_site": "ste_123",
+    "retired": false,
+    "subscriptions": [],
+    "token": "token",
+    "userbenefits": [],
+    "username": "username",
+    "verified_tags": [
+      "Law Enforcement"
+    ]
+  }
+]
