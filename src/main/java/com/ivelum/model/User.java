@@ -187,6 +187,36 @@ public class User extends ApiResource {
   }
 
   /**
+   * Creates user with password hash.
+   * @param firstName new user first name
+   * @param lastName new user last name
+   * @param email new user email
+   * @param registrationSite uid of site in the cub
+   * @param passwordHash password hash
+   * @param passwordSalt password salt
+   * @param passwordAlgorithm password hashing algorithm
+   * @param params the params object with the api key, can be used to specify more user attrs,
+   *               like middle_name or gender
+   * @return User object registered
+   * @throws CubException Network error or registration error
+   */
+  public static User createWithPasswordHash(
+      String firstName, String lastName, String email, String registrationSite,
+      String passwordHash, String passwordAlgorithm, String passwordSalt,
+      Params params
+  ) throws CubException {
+    params.setValue("first_name", firstName);
+    params.setValue("last_name", lastName);
+    params.setValue("email", email);
+    params.setValue("registration_site", registrationSite);
+    params.setValue("password_hash", passwordHash);
+    params.setValue("password_salt", passwordSalt);
+    params.setValue("password_algorithm", passwordAlgorithm);
+
+    return (User) ApiResource.postApi("/users/create-with-password-hash", params);
+  }
+
+  /**
    * Sends restore password for email
    * @param email to send restore password link
    * @param notificationSite the website uid

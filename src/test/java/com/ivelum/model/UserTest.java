@@ -445,6 +445,28 @@ public class UserTest extends CubModelBaseTest {
   }
 
   @Test
+  public void testCreateWithPasswordHash() throws CubException {
+    User fixtureUser = (User) Cub.factory.fromString(getFixture("user"));
+    String apiKey = "apiKey";
+    mockPostToListEndpoint("/users/create-with-password-hash", 200, "user", apiKey);
+    // register user
+    Params params = new Params(apiKey);
+    params.setValue("middle_name", fixtureUser.middleName);
+    User user = User.createWithPasswordHash(
+        fixtureUser.firstName,
+        fixtureUser.lastName,
+        fixtureUser.email,
+        fixtureUser.registrationSite.getId(),
+        "test_hash",
+        "tash_salt",
+        "test_algo",
+        params);
+    // check just created users
+    assertEquals(user.id, fixtureUser.id);
+    assertEquals(user.firstName, fixtureUser.firstName);
+  }
+
+  @Test
   public void testConfirmEmail() throws CubException {
     String invalidConfirmToken = "invalid";
     try {
