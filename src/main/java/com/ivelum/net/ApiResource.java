@@ -40,7 +40,7 @@ public class ApiResource extends CubObject {
 
     String endPointUrl;
     if (id == null) {
-      endPointUrl = getListUrl(this.getClass());
+      endPointUrl = getListUrl(getClassUrl(this.getClass()));
     } else {
       endPointUrl = getInstanceUrl(getInstanceName(this.getClass()), this.id);
     }
@@ -54,8 +54,9 @@ public class ApiResource extends CubObject {
   }
 
   protected static List<CubObject> list(Class<?> cls, Params params) throws CubException {
+    String classUrl = getClassUrl(cls);
     List<CubObject> data = new LinkedList<>();
-    String endPointUrl = getListUrl(cls);
+    String endPointUrl = getListUrl(classUrl);
 
     CubResponse resp = Transport.get(endPointUrl, params);
     JsonElement el = (new JsonParser()).parse(resp.getBody());
@@ -77,14 +78,8 @@ public class ApiResource extends CubObject {
     return classUrl;
   }
 
-  public static String getListUrl(Class<?> cls) {
-    String listUrl;
-    try {
-      listUrl = (String) cls.getDeclaredField("listUrl").get(null);
-    } catch (IllegalAccessException | NoSuchFieldException e) {
-      listUrl = getClassUrl(cls);
-    }
-    return String.format("/%s/", listUrl);
+  public static String getListUrl(String instanceName) {
+    return String.format("/%s/", instanceName);
   }
 
   public static String getInstanceUrl(String instanceName, String id) {

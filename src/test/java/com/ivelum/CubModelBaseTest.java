@@ -62,7 +62,7 @@ public class CubModelBaseTest {
     String endpoint = String.format(
         "/%s%s",
         Cub.version,
-        ApiResource.getListUrl(cls));
+        ApiResource.getListUrl(ApiResource.getClassUrl(cls)));
   
     setPostMock(endpoint, fixture, status, apiKey);
   }
