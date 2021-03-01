@@ -364,6 +364,16 @@ public class User extends ApiResource {
     return (User) get(id, User.class, params);
   }
 
+  public static User getUserByEmail(String emailAddr, Params params) throws CubException {
+    String url = String.format("/users/email/%s", emailAddr);
+    return (User) ApiResource.getApi(url, params);
+  }
+
+  public static User getUserByUsername(String usernameValue, Params params) throws CubException {
+    String url = String.format("/users/username/%s", usernameValue);
+    return (User) ApiResource.getApi(url, params);
+  }
+
   @Override
   public void setApiKey(String apiKey) {
     super.setApiKey(this.token == null ? apiKey : this.token);
