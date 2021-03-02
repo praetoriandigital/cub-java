@@ -71,7 +71,7 @@ public class OrganizationTest extends CubModelBaseTest {
       // exception expected
       fail();
     } catch (NotFoundException e) {
-      assertTrue(e.getMessage().contains("Organization id=non_exists_id not found"));
+      assertTrue(e.getMessage().contains("Organization uid=non_exists_id not found"));
     } catch (CubException e) {
       e.printStackTrace();
       fail(); // unexpected

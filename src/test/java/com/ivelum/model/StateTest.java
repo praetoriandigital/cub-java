@@ -27,6 +27,10 @@ public class StateTest extends CubModelBaseTest {
     Params params = new Params();
     params.setCount(1);
     params.setValue("order_by", "name");
+    // Using the utf8mb4_0900_ai_ci collation, states with
+    // an accent mark at the beginning appear first.
+    // Use a country where all states names consist of ascii letters.
+    params.setValue("country__name", "United States");
     List<CubObject> states = State.list(params);
 
     Character first = ((State) states.get(0)).name.charAt(0);
