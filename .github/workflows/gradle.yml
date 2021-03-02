@@ -1,0 +1,39 @@
+name: cub-java CI with Gradle
+
+on:
+  push
+
+jobs:
+  build:
+    env:
+      TEST_USER_PASS: ${{ secrets.INTEGRATION_TESTS_USER_PASS }}
+    runs-on: ubuntu-16.04
+    strategy:
+      fail-fast: false
+      matrix:
+        jdk: [7, 8, 9, 10, 11, 12, 13]
+
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Set up JDK ${{ matrix.jdk }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.jdk }}
+      - name: Check gradle version
+        run: "./gradlew --version"
+      - name: gradle check
+        run: "./gradlew check -i"
+
+  publish:
+    needs: build
+    runs-on: ubuntu-16.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/java-setup@v1
+        with:
+          java-version: 1.8
+      - name: Publish package
+        run: "./gradlew publish"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
