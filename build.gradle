@@ -2,13 +2,6 @@ plugins {
     id 'maven-publish'
     id 'java'
     id 'checkstyle'
-    id 'java-library'
-}
-
-task('testsOn7', type: Test) {
-    javaLauncher = javaToolchains.launcherFor {
-        languageVersion = JavaLanguageVersion.of(7)
-    }
 }
 
 group 'com.ivelum'
