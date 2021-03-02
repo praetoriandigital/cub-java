@@ -11,7 +11,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: [7, 8, 9, 10, 11, 12, 13]
+        jdk: [8, 9, 10, 11, 12, 13]
 
     steps:
       - name: Checkout Repo
