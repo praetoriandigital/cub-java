@@ -1,4 +1,4 @@
-# Cub Client for Java [![Build Status](https://travis-ci.org/praetoriandigital/cub-java.svg?branch=master)](https://travis-ci.org/praetoriandigital/cub-java)
+# Cub Client for Java [![build](https://github.com/praetoriandigital/cub-java/workflows/build/badge.svg)](https://github.com/praetoriandigital/cub-java/actions/workflows/gradle.yml)
 
 Cub is our system for user authorization and management.
 
