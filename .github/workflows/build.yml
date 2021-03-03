@@ -13,7 +13,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        jdk: [8, 9, 10, 11, 12, 13]
+        jdk: [7, 8, 9, 10, 11, 12, 13]
 
     steps:
       - name: Checkout Repo
@@ -22,6 +22,9 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: ${{ matrix.jdk }}
+      - name: Downgrade gradle for JDK7
+        if: ${{ matrix.jdk == 7 }}
+        run: "gradle wrapper --gradle-version 5.6.4"
       - name: Check gradle version
         run: "./gradlew --version"
       - name: gradle check
