@@ -20,56 +20,68 @@ compatibility.
 
 ## Installation
 
+To use GitHub Packages as repository you need an access token, which you can generate in [settings](https://github.com/settings/tokens).
+
+Click on `Generate new token`. In order to access Github Packages, all you need is `read:packages` permission.
+
 ### Gradle users
 
-You can use JCenter:
-
 ```groovy
 repositories {
-    jcenter()
-}
-```
-
-Or bintray repository:
-
-```groovy
-repositories {
-    maven {
-        url  "https://dl.bintray.com/ivelum/cub-java/"
+  maven {
+    url = "https://maven.pkg.github.com/praetoriandigital/cub-java"
+    credentials {
+      username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+      password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
     }
+  }
 }
 ```
 
 Add this dependency to your project's build file:
 
 ```groovy
-compile "com.ivelum:cub-java:0.16.0"
+dependencies {
+  implementation "com.ivelum:cub-java:0.16.0"
+}
 ```
+
+More details in the [docs](https://docs.github.com/en/packages/guides/configuring-gradle-for-use-with-github-packages).
 
 ### Maven users
 
-You can use JCentral repository:
+Put in the `~/.m2/settings.xml`:
 
 ```xml
-<repositories>
-    <repository>
-        <id>jcenter</id>
-        <url>https://jcenter.bintray.com/</url>
-    </repository>
-</repositories>
-```
-
-Or bintray repository:
-
-```xml
-<repository>
-    <snapshots>
-        <enabled>false</enabled>
-    </snapshots>
-    <id>bintray-ivelum-cub-java</id>
-    <name>bintray</name>
-    <url>https://dl.bintray.com/ivelum/cub-java</url>
-</repository>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+                      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <activeProfiles>
+    <activeProfile>github</activeProfile>
+  </activeProfiles>
+  <profiles>
+    <profile>
+      <id>github</id>
+      <repositories>
+        <repository>
+          <id>github</id>
+          <url>https://maven.pkg.github.com/praetoriandigital/cub-java</url>
+          <snapshots>
+            <enabled>true</enabled>
+          </snapshots>
+        </repository>
+      </repositories>
+    </profile>
+  </profiles>
+  <servers>
+    <server>
+      <id>github</id>
+      <username>USERNAME</username>
+      <password>TOKEN</password>
+    </server>
+  </servers>
+</settings>
 ```
 
 Add this dependency to your project's POM:
@@ -81,6 +93,8 @@ Add this dependency to your project's POM:
     <version>0.16.0</version>
 </dependency>
 ```
+
+More details in the [docs](https://docs.github.com/en/packages/guides/configuring-apache-maven-for-use-with-github-packages).
 
 ## Usage
 
